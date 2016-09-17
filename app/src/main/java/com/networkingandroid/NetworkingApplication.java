@@ -4,7 +4,10 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
+import com.networkingandroid.network.ApiCallsManager;
+import com.networkingandroid.network.BusProvider;
 import com.networkingandroid.util.PrefsUtil;
+import com.squareup.otto.Bus;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
@@ -14,6 +17,8 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 public class NetworkingApplication extends MultiDexApplication {
 
     private static NetworkingApplication mContext;
+    private Bus bus = BusProvider.getBus();
+    private ApiCallsManager apiCallsManager;
 
     @Override
     public void onCreate() {
@@ -27,6 +32,10 @@ public class NetworkingApplication extends MultiDexApplication {
         );
         //Setting up user preferences.
         PrefsUtil.initializeInstance(this);
+
+        apiCallsManager = new ApiCallsManager(this, bus);
+        bus.register(apiCallsManager);
+        bus.register(this);
     }
 
     @Override

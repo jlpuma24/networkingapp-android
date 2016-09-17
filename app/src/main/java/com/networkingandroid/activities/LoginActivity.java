@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.linkedin.platform.APIHelper;
+import com.linkedin.platform.LISession;
 import com.linkedin.platform.LISessionManager;
 import com.linkedin.platform.errors.LIApiError;
 import com.linkedin.platform.errors.LIAuthError;
@@ -17,7 +18,10 @@ import com.linkedin.platform.listeners.AuthListener;
 import com.linkedin.platform.utils.Scope;
 import com.networkingandroid.NetworkingApplication;
 import com.networkingandroid.R;
+import com.networkingandroid.util.Constants;
 import com.networkingandroid.util.PrefsUtil;
+
+import org.json.JSONException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,7 +48,8 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void setUpLinkedinLogin(){
-        LISessionManager.getInstance(getApplicationContext()).init(this, buildScope(), new AuthListener() {
+        final LISessionManager sessionManager = LISessionManager.getInstance(getApplicationContext());
+        sessionManager.init(this, buildScope(), new AuthListener() {
             @Override
             public void onAuthSuccess() {
                 APIHelper apiHelper = APIHelper.getInstance(getApplicationContext());
@@ -52,6 +57,13 @@ public class LoginActivity extends BaseActivity {
                     @Override
                     public void onApiSuccess(ApiResponse apiResponse) {
                         PrefsUtil.getInstance().setIsLogged(true);
+                        String emailAddress;
+                        try {
+                            emailAddress = apiResponse.getResponseDataAsJson().getString(Constants.EMAIL_ADDRESS_TAG);
+                        } catch (JSONException e){
+                            emailAddress = "";
+                        }
+                        PrefsUtil.getInstance().setActiveAccount(sessionManager.getSession().getAccessToken().getValue(), emailAddress);
                         startActivity(new Intent(LoginActivity.this, SelectInterestActivity.class));
                         finish();
                     }

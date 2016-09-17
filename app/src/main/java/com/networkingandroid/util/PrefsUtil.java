@@ -8,7 +8,7 @@ import android.content.SharedPreferences;
  */
 public class PrefsUtil {
 
-    public static final String LONG_ACTIVE_ACCOUNT_ID = "com.networkingandroid.LONG_ACTIVE_ACCOUNT_ID";
+    public static final String EMAIL_ACTIVE_ACCOUNT_ID = "com.networkingandroid.EMAIL_ACTIVE_ACCOUNT_ID";
     public static final String STRING_ACTIVE_OAUTH_TOKEN = "com.networkingandroid.STRING_ACTIVE_OAUTH_TOKEN";
     public static final String IS_LOGGED = "com.networkingandroid.IS_LOGGED";
     public static final String USER_OBJECT_DATA = "com.networkingandroid.USER_OBJECT_DATA";
@@ -40,10 +40,10 @@ public class PrefsUtil {
         edit.commit();
     }
 
-    public void setActiveAccount(long accountID, String authToken) {
+    public void setActiveAccount(String authToken, String email) {
         SharedPreferences.Editor edit = mPreferences.edit();
-        edit.putLong(PrefsUtil.LONG_ACTIVE_ACCOUNT_ID, accountID);
         edit.putString(PrefsUtil.STRING_ACTIVE_OAUTH_TOKEN, authToken);
+        edit.putString(PrefsUtil.EMAIL_ACTIVE_ACCOUNT_ID, email);
         edit.commit();
     }
 
