@@ -6,4 +6,20 @@
     <dimen name="login_text_elements_size">25sp</dimen>
     <dimen name="drawable_linkedin_logo_padding">5dp</dimen>
     <dimen name="image_logo_margin_bottom">40dp</dimen>
+
+    <dimen name="margin_left_row">5dp</dimen>
+    <dimen name="width_assist_button">120dp</dimen>
+    <dimen name="height_assist_button">40dp</dimen>
+    <dimen name="height_image_event">250dp</dimen>
+
+    <dimen name="text_title_size">18sp</dimen>
+    <dimen name="icon_referent_measure">50dp</dimen>
+    <dimen name="referent_name_margin">8dp</dimen>
+    <dimen name="margin_top_share_container">8dp</dimen>
+    <dimen name="margin_right_referent_icon">5dp</dimen>
+
+    <dimen name="margin_top_recycler">8dp</dimen>
+    <dimen name="margin_right_left_recycler">10dp</dimen>
+    <dimen name="margin_bottom_recycler">8dp</dimen>
+    <dimen name="measures_share_button">8dp</dimen>
 </resources>

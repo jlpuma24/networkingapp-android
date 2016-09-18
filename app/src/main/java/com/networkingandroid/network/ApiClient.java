@@ -2,6 +2,7 @@ package com.networkingandroid.network;
 
 import android.content.Context;
 
+import com.networkingandroid.network.events.EventsResponse;
 import com.networkingandroid.util.PrefsUtil;
 import com.squareup.otto.Bus;
 
@@ -12,6 +13,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -47,8 +49,11 @@ public class ApiClient {
                 Request.Builder requestBuilder = original.newBuilder();
 
                 if (getActiveAccountAuthToken() != null) {
-                    requestBuilder.addHeader("X-User-Token", getActiveAccountAuthToken());
-                    requestBuilder.addHeader("X-User-Email", getActiveAccountEmail());
+                    //requestBuilder.addHeader("X-User-Token", getActiveAccountAuthToken());
+                    //requestBuilder.addHeader("X-User-Email", getActiveAccountEmail());
+                    requestBuilder.addHeader("X-User-Token", "XftfE31kYzAMdpRhYnK4");
+                    requestBuilder.addHeader("X-User-Email", "zaeta88@gmail.com");
+
                 }
                 return chain.proceed(requestBuilder.build());
             }
@@ -87,6 +92,11 @@ public class ApiClient {
         } catch (RuntimeException e) {
             return null;
         }
+    }
+
+    public Call<EventsResponse> getEvents(){
+        ApiService apiService = retrofitAdapter.create(ApiService.class);
+        return apiService.getEvents();
     }
 
     public static Retrofit getRetrofitAdapter() {

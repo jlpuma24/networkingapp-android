@@ -4,4 +4,12 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="darkBlue">#141e40</color>
+
+    <color name="titleColor">#2952a3</color>
+    <color name="contentColor">#848485</color>
+    <color name="transparentBackground">#7FFFFFFF</color>
+    <color name="toolbarColor">#2d3b5a</color>
+    <color name="cardBackground">#f2f2f2</color>
+
+    <color name="backgroundMenu">#242424</color>
 </resources>
