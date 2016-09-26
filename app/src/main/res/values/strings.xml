@@ -11,4 +11,14 @@
     <string name="format_image_url">%1$s%2$s</string>
     <string name="asistir">ASISTIR</string>
     <string name="eventos">EVENTOS</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="continuar">CONTINUAR</string>
+    
+    <string name="bienvenido">BIENVENIDO!</string>
+    <string name="selecciona_intereses_eventos">Selecciona tus intereses.\nasí te mostraremos eventos\nque te interesarán</string>
+    <string name="tipo_industria">Tipo de industria</string>
+    <string name="area_trabajo">Área de trabajo</string>
+    <string name="selecciona_industria">Selecciona una industria</string>
+    <string name="selecciona_area">Selecciona un área</string>
+    <string name="buscar">Buscar</string>
 </resources>

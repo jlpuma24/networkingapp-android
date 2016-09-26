@@ -3,6 +3,10 @@ package com.networkingandroid.network;
 import android.content.Context;
 
 import com.networkingandroid.network.events.EventsResponse;
+import com.networkingandroid.network.events.SuccessAreasResponseEvent;
+import com.networkingandroid.network.events.SuccessIndustriesResponseEvent;
+import com.networkingandroid.network.model.LoginRequest;
+import com.networkingandroid.network.events.SuccessLoginResponseEvent;
 import com.networkingandroid.util.PrefsUtil;
 import com.squareup.otto.Bus;
 
@@ -22,7 +26,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class ApiClient {
 
-    private static final String BASE_URL = "http://nwmeeting.com/api/";
+    private static final String BASE_URL = "http://nwmeeting.com/";
     private static ApiClient mApiClient;
     private static Retrofit retrofitAdapter;
     private static HttpLoggingInterceptor interceptor;
@@ -97,6 +101,21 @@ public class ApiClient {
     public Call<EventsResponse> getEvents(){
         ApiService apiService = retrofitAdapter.create(ApiService.class);
         return apiService.getEvents();
+    }
+
+    public Call<SuccessIndustriesResponseEvent> getIndustries(){
+        ApiService apiService = retrofitAdapter.create(ApiService.class);
+        return apiService.doGetIndustries();
+    }
+
+    public Call<SuccessAreasResponseEvent> getAreas(long id){
+        ApiService apiService = retrofitAdapter.create(ApiService.class);
+        return apiService.doGetAreas(id);
+    }
+
+    public Call<SuccessLoginResponseEvent> doLogin(LoginRequest loginRequest){
+        ApiService apiService = retrofitAdapter.create(ApiService.class);
+        return apiService.doLogin(loginRequest.getEmail(), loginRequest.getName(), loginRequest.getLast_name(), loginRequest.getAvatar(), loginRequest.getProfile(), loginRequest.getUid());
     }
 
     public static Retrofit getRetrofitAdapter() {
