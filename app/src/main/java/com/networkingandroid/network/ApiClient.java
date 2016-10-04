@@ -2,6 +2,8 @@ package com.networkingandroid.network;
 
 import android.content.Context;
 
+import com.networkingandroid.network.events.AttendanceEventResponse;
+import com.networkingandroid.network.events.AttendanceResponse;
 import com.networkingandroid.network.events.EventsResponse;
 import com.networkingandroid.network.events.SuccessAreasResponseEvent;
 import com.networkingandroid.network.events.SuccessIndustriesResponseEvent;
@@ -111,6 +113,16 @@ public class ApiClient {
     public Call<SuccessAreasResponseEvent> getAreas(long id){
         ApiService apiService = retrofitAdapter.create(ApiService.class);
         return apiService.doGetAreas(id);
+    }
+
+    public Call<AttendanceResponse> getAttendances(long id){
+        ApiService apiService = retrofitAdapter.create(ApiService.class);
+        return apiService.doGetAttendances(id);
+    }
+
+    public Call<AttendanceEventResponse> getAttendanceResponse(long user_id, long event_id){
+        ApiService apiService = retrofitAdapter.create(ApiService.class);
+        return apiService.doMakeAttendance(user_id, event_id);
     }
 
     public Call<SuccessLoginResponseEvent> doLogin(LoginRequest loginRequest){

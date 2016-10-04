@@ -1,5 +1,7 @@
 package com.networkingandroid.network;
 
+import com.networkingandroid.network.events.AttendanceEventResponse;
+import com.networkingandroid.network.events.AttendanceResponse;
 import com.networkingandroid.network.events.EventsResponse;
 import com.networkingandroid.network.events.SuccessAreasResponseEvent;
 import com.networkingandroid.network.events.SuccessIndustriesResponseEvent;
@@ -31,4 +33,10 @@ public interface ApiService {
 
     @GET("api/industries/{id}/areas")
     Call<SuccessAreasResponseEvent> doGetAreas(@Path("id") long id);
+
+    @GET("api/users/{id}/attendances")
+    Call<AttendanceResponse> doGetAttendances(@Path("id") long id);
+
+    @POST("http://nwmeeting.com/api/attendances")
+    Call<AttendanceEventResponse> doMakeAttendance(@Query("user_id") long user_id, @Query("event_id") long event_id);
 }

@@ -25,14 +25,11 @@
                 android:scaleType="centerCrop"
                 android:id="@+id/imageViewEvent" />
 
-            <Button
+            <ImageView
                 android:layout_width="@dimen/width_assist_button"
                 android:layout_height="@dimen/height_assist_button"
-                android:text="@string/asistir"
-                android:textColor="@android:color/white"
-                android:textStyle="bold"
+                android:src="@drawable/boton_asistencia"
                 android:id="@+id/buttonAsistir"
-                android:background="@color/transparentBackground"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true" />
         </RelativeLayout>
@@ -102,6 +99,7 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_marginTop="@dimen/margin_top_share_container"
+            android:layout_marginBottom="5dp"
             android:layout_height="wrap_content">
 
             <TextView
@@ -112,49 +110,6 @@
                 android:textStyle="bold"
                 android:layout_marginLeft="@dimen/margin_left_row"
                 android:id="@+id/textViewDescriptionEvent" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_top_share_container">
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Miami, Florida"
-                    android:textColor="@android:color/black"
-                    android:textStyle="bold"
-                    android:layout_marginLeft="@dimen/margin_left_row"
-                    android:gravity="left|center"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:id="@+id/textViewCityEvent"
-                    android:layout_gravity="center"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_toLeftOf="@+id/imageViewShare"
-                    android:layout_toStartOf="@+id/imageViewShare" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/share"
-                    android:id="@+id/imageViewShare"
-                    android:layout_gravity="right"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginBottom="@dimen/measures_share_button"
-                    android:layout_marginRight="@dimen/measures_share_button" />
-            </RelativeLayout>
-
         </LinearLayout>
 
     </LinearLayout>

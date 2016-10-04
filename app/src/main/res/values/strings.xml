@@ -3,9 +3,9 @@
 
     <string name="linkedin_url">https://api.linkedin.com/v1/people/~:(id,num-connections,picture-url,email-address,first-name,last-name,public-profile-url)</string>
     <string name="error_login">Existió un error al momento de iniciar sesión, por favor intenta nuevamente</string>
-    <string name="entrar">ENTRAR</string>
-    <string name="entrar_label">Para conectarte\nnecesitas entrar\ncon tu cuenta</string>
-    <string name="de">de</string>
+    <string name="entrar">ENTER</string>
+    <string name="entrar_label">To connect\nyou need to enter \nwith your account</string>
+    <string name="de">of</string>
 
     <string name="url_base">http://nwmeeting.com</string>
     <string name="format_image_url">%1$s%2$s</string>
@@ -21,4 +21,17 @@
     <string name="selecciona_industria">Selecciona una industria</string>
     <string name="selecciona_area">Selecciona un área</string>
     <string name="buscar">Buscar</string>
+
+    <string name="on_boarding_two">Review in detail \nevents (industry\nplace and date)</string>
+    <string name="on_boarding_one">Corroborates the city\nwhere you want to view events</string>
+    <string name="on_boarding_three">Confirms attendance\nto the event you \nwant to participate</string>
+    
+    <string name="home">HOME</string>
+    <string name="attendances">ATTENDANCES</string>
+    <string name="settings">SETTINGS</string>
+
+    <string name="no_attendances">Requests have not yet attendance at an event.</string>
+    <string name="asistire">ASISTIRÉ</string>
+    <string name="alert_attend">Really you want to attend this event?</string>
+    <string name="success_event_request">Congratulations! You can attend this event</string>
 </resources>

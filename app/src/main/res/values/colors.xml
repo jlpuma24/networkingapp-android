@@ -8,6 +8,7 @@
     <color name="titleColor">#2952a3</color>
     <color name="contentColor">#848485</color>
     <color name="transparentBackground">#7FFFFFFF</color>
+    <color name="blueAssist">#254a94</color>
     <color name="toolbarColor">#2d3b5a</color>
     <color name="cardBackground">#f2f2f2</color>
 

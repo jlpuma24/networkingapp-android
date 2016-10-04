@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.linkedin.platform.APIHelper;
@@ -38,6 +39,8 @@ public class LoginActivity extends BaseActivity {
 
     @BindView(R.id.buttonEntrar)
     Button buttonEntrar;
+    @BindView(R.id.linkedinLogoTextView)
+    TextView linkedinLogoTextView;
     private Bus mBus = BusProvider.getBus();
 
     @Override
@@ -47,7 +50,7 @@ public class LoginActivity extends BaseActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick(R.id.buttonEntrar)
+    @OnClick({R.id.buttonEntrar, R.id.linkedinLogoTextView})
     public void onButtonEntrarClick(){
         setUpLinkedinLogin();
     }
@@ -73,7 +76,7 @@ public class LoginActivity extends BaseActivity {
                         try { publicProfileUrl = responseJsonObject.getString(Constants.PUBLIC_PROFILE_URL); } catch (JSONException e){}
                         try { id = responseJsonObject.getString(Constants.ID_TAG); } catch (JSONException e){}
 
-                        PrefsUtil.getInstance().setActiveAccount(sessionManager.getSession().getAccessToken().getValue(), emailAddress);
+                        PrefsUtil.getInstance().setActiveAccount(sessionManager.getSession().getAccessToken().getValue(), emailAddress, firstName+" "+lastName, pictureUrl);
                         mBus.post(new LoginRequest(emailAddress, firstName, lastName, pictureUrl, publicProfileUrl, id));
                     }
 
@@ -104,6 +107,7 @@ public class LoginActivity extends BaseActivity {
     @Subscribe
     public void onSuccessLoginResponse(SuccessLoginResponseEvent successLoginResponseEvent){
         startActivity(new Intent(LoginActivity.this, SelectInterestActivity.class));
+        PrefsUtil.getInstance().setUserIDLogged(successLoginResponseEvent.getResponse().getId());
         finish();
     }
 

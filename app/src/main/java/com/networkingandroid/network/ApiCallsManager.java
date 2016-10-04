@@ -2,8 +2,12 @@ package com.networkingandroid.network;
 
 import android.content.Context;
 
+import com.networkingandroid.network.events.AttendanceEventResponse;
+import com.networkingandroid.network.events.AttendanceResponse;
 import com.networkingandroid.network.events.EventsResponse;
 import com.networkingandroid.network.events.RequestAreas;
+import com.networkingandroid.network.events.RequestAttendanceEvent;
+import com.networkingandroid.network.events.RequestAttendances;
 import com.networkingandroid.network.events.RequestEvents;
 import com.networkingandroid.network.events.RequestIndustries;
 import com.networkingandroid.network.events.SuccessAreasResponseEvent;
@@ -105,6 +109,46 @@ public class ApiCallsManager {
 
             @Override
             public void onFailure(Call<SuccessAreasResponseEvent> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Subscribe
+    public void getAttendances(RequestAttendances requestAttendances){
+        mApiClient.getAttendances(requestAttendances.getIdUser()).enqueue(new Callback<AttendanceResponse>() {
+            @Override
+            public void onResponse(Call<AttendanceResponse> call, Response<AttendanceResponse> response) {
+                if (response.isSuccessful()){
+                    mBus.post(response.body());
+                }
+                else {
+                    mBus.post(ErrorUtils.parseRretrofitError(response, mApiClient.getRetrofitAdapter()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AttendanceResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Subscribe
+    public void getRequestAttendance(RequestAttendanceEvent requestAttendanceEvent){
+        mApiClient.getAttendanceResponse(requestAttendanceEvent.getUser_id(), requestAttendanceEvent.getEvent_id()).enqueue(new Callback<AttendanceEventResponse>() {
+            @Override
+            public void onResponse(Call<AttendanceEventResponse> call, Response<AttendanceEventResponse> response) {
+                if (response.isSuccessful()){
+                    mBus.post(response.body());
+                }
+                else {
+                    mBus.post(ErrorUtils.parseRretrofitError(response, mApiClient.getRetrofitAdapter()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AttendanceEventResponse> call, Throwable t) {
 
             }
         });

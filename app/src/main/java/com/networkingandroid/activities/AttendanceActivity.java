@@ -15,12 +15,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.networkingandroid.R;
+import com.networkingandroid.adapters.VerticalAssistmentAdapter;
 import com.networkingandroid.adapters.VerticalEventsAdapter;
 import com.networkingandroid.network.ApiError;
 import com.networkingandroid.network.BusProvider;
-import com.networkingandroid.network.events.AttendanceEventResponse;
+import com.networkingandroid.network.events.AttendanceResponse;
 import com.networkingandroid.network.events.EventsResponse;
+import com.networkingandroid.network.events.RequestAttendances;
 import com.networkingandroid.network.events.RequestEvents;
+import com.networkingandroid.network.model.Attendance;
+import com.networkingandroid.network.model.Event;
 import com.networkingandroid.util.PrefsUtil;
 import com.networkingandroid.util.RoundedCornersTransform;
 import com.squareup.otto.Bus;
@@ -28,13 +32,15 @@ import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by Usuario on 16/09/2016.
+ * Created by Usuario on 04/10/2016.
  */
-public class HomeActivity extends BaseActivity {
+public class AttendanceActivity extends BaseActivity {
 
     private Bus mBus = BusProvider.getBus();
     @BindView(R.id.recyclerViewEvents)
@@ -57,24 +63,24 @@ public class HomeActivity extends BaseActivity {
         ButterKnife.bind(this);
         setupToolbar();
         setUpMenu();
-        mBus.post(new RequestEvents());
+        mBus.post(new RequestAttendances(PrefsUtil.getInstance().getPrefs().getLong(PrefsUtil.USER_ID_LOGGED,0)));
     }
 
     private void setUpMenu(){
         Picasso.with(this)
-               .load(PrefsUtil.getInstance().getPrefs().getString(PrefsUtil.PICTURE_USER_DATA,""))
-               .transform(new RoundedCornersTransform())
-               .into(imageViewUser, new Callback() {
-                   @Override
-                   public void onSuccess() {
+                .load(PrefsUtil.getInstance().getPrefs().getString(PrefsUtil.PICTURE_USER_DATA,""))
+                .transform(new RoundedCornersTransform())
+                .into(imageViewUser, new Callback() {
+                    @Override
+                    public void onSuccess() {
 
-                   }
+                    }
 
-                   @Override
-                   public void onError() {
+                    @Override
+                    public void onError() {
 
-                   }
-               });
+                    }
+                });
         textViewUsername.setText(PrefsUtil.getInstance().getPrefs().getString(PrefsUtil.NAME_USER_DATA, ""));
     }
 
@@ -91,11 +97,21 @@ public class HomeActivity extends BaseActivity {
     }
 
     @Subscribe
-    public void onEventsResponse(EventsResponse eventsResponse){
-        LinearLayoutManager verticalLayoutmanager
-                = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        recyclerViewEvents.setLayoutManager(verticalLayoutmanager);
-        recyclerViewEvents.setAdapter(new VerticalEventsAdapter(eventsResponse.getResponse(), this, mBus));
+    public void onEventsResponse(AttendanceResponse attendanceResponse){
+        if (attendanceResponse.getResponse() != null && !attendanceResponse.getResponse().isEmpty()) {
+            ArrayList<Event> eventArrayList = new ArrayList<Event>();
+            ArrayList<Attendance> attendances = attendanceResponse.getResponse();
+            for (Attendance attendance : attendances) {
+                eventArrayList.add(attendance.getEvent());
+            }
+            LinearLayoutManager verticalLayoutmanager
+                    = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+            recyclerViewEvents.setLayoutManager(verticalLayoutmanager);
+            recyclerViewEvents.setAdapter(new VerticalAssistmentAdapter(eventArrayList, this));
+        }
+        else {
+            Toast.makeText(this, getString(R.string.no_attendances),Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Subscribe
@@ -123,10 +139,5 @@ public class HomeActivity extends BaseActivity {
             return;
         }
         super.onBackPressed();
-    }
-
-    @Subscribe
-    public void onSuccessAttendanceResponse(AttendanceEventResponse attendanceEventResponse){
-        Toast.makeText(this, getString(R.string.success_event_request), Toast.LENGTH_SHORT).show();
     }
 }
