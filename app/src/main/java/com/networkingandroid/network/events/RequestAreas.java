@@ -6,6 +6,10 @@ package com.networkingandroid.network.events;
 public class RequestAreas {
     private long id;
 
+    public RequestAreas(){
+
+    }
+
     public RequestAreas(long id) {
         this.id = id;
     }

@@ -1,5 +1,6 @@
 package com.networkingandroid.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -55,6 +56,15 @@ public class AttendanceActivity extends BaseActivity {
     ImageView imageViewUser;
     @BindView(R.id.textViewUserName)
     TextView textViewUsername;
+    @BindView(R.id.headerBar)
+    TextView headerBar;
+    //Menu items
+    @BindView(R.id.textViewHome)
+    TextView textViewHome;
+    @BindView(R.id.textViewAttendance)
+    TextView textViewAttendance;
+    @BindView(R.id.textViewSettings)
+    TextView textViewSettings;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,6 +92,27 @@ public class AttendanceActivity extends BaseActivity {
                     }
                 });
         textViewUsername.setText(PrefsUtil.getInstance().getPrefs().getString(PrefsUtil.NAME_USER_DATA, ""));
+
+        textViewHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(AttendanceActivity.this, HomeActivity.class));
+                finish();
+            }
+        });
+        textViewAttendance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(AttendanceActivity.this, AttendanceActivity.class));
+                finish();
+            }
+        });
+        textViewSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     @Override
@@ -127,6 +158,7 @@ public class AttendanceActivity extends BaseActivity {
                 drawer.openDrawer(navigationView);
             }
         });
+        headerBar.setText(getString(R.string.attendances));
     }
 
     /**

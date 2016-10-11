@@ -55,33 +55,14 @@ public class VerticalEventsAdapter extends RecyclerView.Adapter<VerticalEventsAd
                 .load(String.format(mContext.getString(R.string.format_image_url),
                         mContext.getString(R.string.url_base), eventsArrayList.get(position).getCover()))
                 .into(holder.imageViewEvent);
-        Picasso.with(NetworkingApplication.getInstance())
-                .load(String.format(mContext.getString(R.string.format_image_url),
-                        mContext.getString(R.string.url_base), eventsArrayList.get(position).getAvatar()))
-                .transform(new RoundedCornersTransform())
-                .into(holder.imageViewIconReferent);
         holder.textViewCityEvent.setText(eventsArrayList.get(position).getPlace().getName()+", "+eventsArrayList.get(position).getPlace().getAddress());
         holder.textViewDescriptionEvent.setText(eventsArrayList.get(position).getDescription());
         holder.textViewEventName.setText(eventsArrayList.get(position).getName());
         holder.buttonAsistir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new AlertDialog.Builder(mContext)
-                        .setMessage(mContext.getString(R.string.alert_attend))
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                                mBus.post(new RequestAttendanceEvent(
-                                        PrefsUtil.getInstance().getPrefs().getLong(PrefsUtil.USER_ID_LOGGED,0), eventsArrayList.get(position).getId()));
-                            }
-                        })
-                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .show();
+                mBus.post(new RequestAttendanceEvent(
+                    PrefsUtil.getInstance().getPrefs().getLong(PrefsUtil.USER_ID_LOGGED,0), eventsArrayList.get(position).getId()));
             }
         });
     }
@@ -93,11 +74,9 @@ public class VerticalEventsAdapter extends RecyclerView.Adapter<VerticalEventsAd
 
     public class EventsViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.buttonAsistir)
-        Button buttonAsistir;
+        ImageView buttonAsistir;
         @BindView(R.id.imageViewEvent)
         ImageView imageViewEvent;
-        @BindView(R.id.imageViewIconReferent)
-        ImageView imageViewIconReferent;
         @BindView(R.id.imageViewShare)
         ImageView imageViewShare;
         @BindView(R.id.textViewCityEvent)

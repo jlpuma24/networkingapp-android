@@ -6,6 +6,7 @@ import com.networkingandroid.network.events.EventsResponse;
 import com.networkingandroid.network.events.SuccessAreasResponseEvent;
 import com.networkingandroid.network.events.SuccessIndustriesResponseEvent;
 import com.networkingandroid.network.events.SuccessLoginResponseEvent;
+import com.networkingandroid.network.model.Event;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -31,11 +32,14 @@ public interface ApiService {
     @GET("api/industries")
     Call<SuccessIndustriesResponseEvent> doGetIndustries();
 
-    @GET("api/industries/{id}/areas")
-    Call<SuccessAreasResponseEvent> doGetAreas(@Path("id") long id);
+    @GET("api/areas")
+    Call<SuccessAreasResponseEvent> doGetAreas();
 
     @GET("api/users/{id}/attendances")
     Call<AttendanceResponse> doGetAttendances(@Path("id") long id);
+
+    @GET("api/search/by_text")
+    Call<EventsResponse> getEventsByText(@Query("text") String text);
 
     @POST("http://nwmeeting.com/api/attendances")
     Call<AttendanceEventResponse> doMakeAttendance(@Query("user_id") long user_id, @Query("event_id") long event_id);

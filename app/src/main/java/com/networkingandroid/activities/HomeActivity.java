@@ -1,5 +1,7 @@
 package com.networkingandroid.activities;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -9,7 +11,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +27,7 @@ import com.networkingandroid.network.BusProvider;
 import com.networkingandroid.network.events.AttendanceEventResponse;
 import com.networkingandroid.network.events.EventsResponse;
 import com.networkingandroid.network.events.RequestEvents;
+import com.networkingandroid.network.events.RequestEventsByNameEvent;
 import com.networkingandroid.util.PrefsUtil;
 import com.networkingandroid.util.RoundedCornersTransform;
 import com.squareup.otto.Bus;
@@ -49,6 +56,17 @@ public class HomeActivity extends BaseActivity {
     ImageView imageViewUser;
     @BindView(R.id.textViewUserName)
     TextView textViewUsername;
+    //Menu items
+    @BindView(R.id.textViewHome)
+    TextView textViewHome;
+    @BindView(R.id.textViewAttendance)
+    TextView textViewAttendance;
+    @BindView(R.id.textViewSettings)
+    TextView textViewSettings;
+    @BindView(R.id.editTextSearch)
+    EditText editTextSearch;
+    private boolean searchShowed = false;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,7 +75,16 @@ public class HomeActivity extends BaseActivity {
         ButterKnife.bind(this);
         setupToolbar();
         setUpMenu();
+        prepareEditTextSearch();
+        prepareProgressDialog();
         mBus.post(new RequestEvents());
+    }
+
+    private void prepareProgressDialog(){
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage(getString(R.string.loading_data));
+        progressDialog.show();
     }
 
     private void setUpMenu(){
@@ -76,6 +103,27 @@ public class HomeActivity extends BaseActivity {
                    }
                });
         textViewUsername.setText(PrefsUtil.getInstance().getPrefs().getString(PrefsUtil.NAME_USER_DATA, ""));
+
+        textViewHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HomeActivity.this, HomeActivity.class));
+                finish();
+            }
+        });
+        textViewAttendance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HomeActivity.this, AttendanceActivity.class));
+                finish();
+            }
+        });
+        textViewSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     @Override
@@ -92,10 +140,17 @@ public class HomeActivity extends BaseActivity {
 
     @Subscribe
     public void onEventsResponse(EventsResponse eventsResponse){
-        LinearLayoutManager verticalLayoutmanager
-                = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        recyclerViewEvents.setLayoutManager(verticalLayoutmanager);
-        recyclerViewEvents.setAdapter(new VerticalEventsAdapter(eventsResponse.getResponse(), this, mBus));
+        progressDialog.dismiss();
+        if (!eventsResponse.getResponse().isEmpty()) {
+            recyclerViewEvents.setAdapter(null);
+            LinearLayoutManager verticalLayoutmanager
+                    = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+            recyclerViewEvents.setLayoutManager(verticalLayoutmanager);
+            recyclerViewEvents.setAdapter(new VerticalEventsAdapter(eventsResponse.getResponse(), this, mBus));
+        }
+        else {
+            Toast.makeText(this, getString(R.string.no_results), Toast.LENGTH_LONG).show();
+        }
     }
 
     @Subscribe
@@ -104,11 +159,44 @@ public class HomeActivity extends BaseActivity {
     }
 
     private void setupToolbar() {
-        toolbar.setNavigationIcon(ContextCompat.getDrawable(this, R.drawable.menu));
+        toolbar.setNavigationIcon(ContextCompat.getDrawable(this, R.drawable.ic_back));
+        toolbar.inflateMenu(R.menu.main_menu);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawer.openDrawer(navigationView);
+                onBackPressed();
+            }
+        });
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.mSearch:
+                        if (!searchShowed) {
+                            editTextSearch.setVisibility(View.VISIBLE);
+                            searchShowed = true;
+                        } else {
+                            editTextSearch.setVisibility(View.GONE);
+                            searchShowed = false;
+                        }
+                        break;
+                }
+                return true;
+            }
+        });
+    }
+
+    private void prepareEditTextSearch(){
+        editTextSearch.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    hideKeyboard();
+                    prepareProgressDialog();
+                    mBus.post(new RequestEventsByNameEvent(editTextSearch.getText().toString()));
+                    return true;
+                }
+                return false;
             }
         });
     }
@@ -128,5 +216,12 @@ public class HomeActivity extends BaseActivity {
     @Subscribe
     public void onSuccessAttendanceResponse(AttendanceEventResponse attendanceEventResponse){
         Toast.makeText(this, getString(R.string.success_event_request), Toast.LENGTH_SHORT).show();
+    }
+
+    private void hideKeyboard() {
+        if (getCurrentFocus() != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
     }
 }

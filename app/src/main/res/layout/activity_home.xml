@@ -18,32 +18,54 @@
             android:background="@color/toolbarColor">
 
             <TextView
+                android:id="@+id/headerBar"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:textColor="@android:color/white"
-                android:text="@string/eventos"/>
+                android:text="@string/eventos"
+                android:textColor="@android:color/white" />
 
         </android.support.v7.widget.Toolbar>
 
+        <EditText
+            android:id="@+id/editTextSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/toolbar"
+            android:background="@color/cardBackground"
+            android:drawableLeft="@drawable/ic_magnify"
+            android:drawablePadding="5dp"
+            android:drawableTint="@color/blueAssist"
+            android:gravity="left|center"
+            android:hint="@string/search_hint"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textColor="@android:color/black"
+            android:textSize="15sp"
+            android:visibility="gone" />
+
         <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_below="@id/toolbar"
+            android:layout_below="@+id/editTextSearch"
             android:background="@android:color/white"
-            android:id="@+id/linearLayout">
+            android:orientation="vertical">
 
             <FrameLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
                 <include
+                    layout="@layout/events_content"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    layout="@layout/events_content" />
+                    android:layout_height="match_parent" />
 
                 <FrameLayout
                     android:id="@+id/fragment_container"

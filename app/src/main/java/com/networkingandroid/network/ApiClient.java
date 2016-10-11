@@ -110,9 +110,9 @@ public class ApiClient {
         return apiService.doGetIndustries();
     }
 
-    public Call<SuccessAreasResponseEvent> getAreas(long id){
+    public Call<SuccessAreasResponseEvent> getAreas(){
         ApiService apiService = retrofitAdapter.create(ApiService.class);
-        return apiService.doGetAreas(id);
+        return apiService.doGetAreas();
     }
 
     public Call<AttendanceResponse> getAttendances(long id){
@@ -128,6 +128,11 @@ public class ApiClient {
     public Call<SuccessLoginResponseEvent> doLogin(LoginRequest loginRequest){
         ApiService apiService = retrofitAdapter.create(ApiService.class);
         return apiService.doLogin(loginRequest.getEmail(), loginRequest.getName(), loginRequest.getLast_name(), loginRequest.getAvatar(), loginRequest.getProfile(), loginRequest.getUid());
+    }
+
+    public Call<EventsResponse> doGetEventsByName(String name){
+        ApiService apiService = retrofitAdapter.create(ApiService.class);
+        return apiService.getEventsByText(name);
     }
 
     public static Retrofit getRetrofitAdapter() {

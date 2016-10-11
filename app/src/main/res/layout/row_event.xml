@@ -25,14 +25,11 @@
                 android:scaleType="centerCrop"
                 android:id="@+id/imageViewEvent" />
 
-            <Button
+            <ImageView
                 android:layout_width="@dimen/width_assist_button"
                 android:layout_height="@dimen/height_assist_button"
-                android:text="@string/asistir"
-                android:textColor="@android:color/white"
-                android:textStyle="bold"
+                android:src="@drawable/assist"
                 android:id="@+id/buttonAsistir"
-                android:background="@color/transparentBackground"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true" />
         </RelativeLayout>
@@ -79,20 +76,14 @@
                         android:id="@+id/textViewNameReferent"
                         android:maxLines="1"
                         android:ellipsize="end"
+                        android:gravity="right"
+                        android:paddingRight="5dp"
                         android:layout_centerVertical="true"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
-                        android:layout_toLeftOf="@+id/imageViewIconReferent"
-                        android:layout_toStartOf="@+id/imageViewIconReferent" />
-
-                    <ImageView
-                        android:layout_width="@dimen/icon_referent_measure"
-                        android:layout_height="@dimen/icon_referent_measure"
-                        android:scaleType="fitCenter"
-                        android:id="@+id/imageViewIconReferent"
-                        android:layout_alignParentTop="true"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentEnd="true" />
+
                 </RelativeLayout>
 
             </LinearLayout>

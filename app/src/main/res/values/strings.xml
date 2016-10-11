@@ -9,17 +9,18 @@
 
     <string name="url_base">http://nwmeeting.com</string>
     <string name="format_image_url">%1$s%2$s</string>
-    <string name="asistir">ASISTIR</string>
-    <string name="eventos">EVENTOS</string>
+    <string name="asistir">ASSIST</string>
+    <string name="asistencia">ATTENDANCE</string>
+    <string name="eventos">EVENTS</string>
     <string name="title_activity_maps">Map</string>
-    <string name="continuar">CONTINUAR</string>
+    <string name="continuar">CONTINUE</string>
     
-    <string name="bienvenido">BIENVENIDO!</string>
-    <string name="selecciona_intereses_eventos">Selecciona tus intereses.\nasí te mostraremos eventos\nque te interesarán</string>
-    <string name="tipo_industria">Tipo de industria</string>
-    <string name="area_trabajo">Área de trabajo</string>
-    <string name="selecciona_industria">Selecciona una industria</string>
-    <string name="selecciona_area">Selecciona un área</string>
+    <string name="bienvenido">WELCOME!</string>
+    <string name="selecciona_intereses_eventos">Select your interest.\nso we show events\nthat interest to you</string>
+    <string name="tipo_industria">Industry type:</string>
+    <string name="area_trabajo">Job area:</string>
+    <string name="selecciona_industria">Pick an industry</string>
+    <string name="selecciona_area">Pick an area</string>
     <string name="buscar">Buscar</string>
 
     <string name="on_boarding_two">Review in detail \nevents (industry\nplace and date)</string>
@@ -34,4 +35,11 @@
     <string name="asistire">ASISTIRÉ</string>
     <string name="alert_attend">Really you want to attend this event?</string>
     <string name="success_event_request">Congratulations! You can attend this event</string>
+
+    <string name="loading_data">Loading data.. please wait</string>
+    <string name="industries">INDUSTRIES</string>
+    <string name="areas">AREAS</string>
+    <string name="confirm">CONFIRM</string>
+    <string name="search_hint">Search..</string>
+    <string name="no_results">This search returned no results, please try again</string>
 </resources>

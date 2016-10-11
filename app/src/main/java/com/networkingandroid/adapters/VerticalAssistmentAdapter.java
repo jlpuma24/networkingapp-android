@@ -46,11 +46,6 @@ public class VerticalAssistmentAdapter extends RecyclerView.Adapter<VerticalAssi
                 .load(String.format(mContext.getString(R.string.format_image_url),
                         mContext.getString(R.string.url_base), eventsArrayList.get(position).getCover()))
                 .into(holder.imageViewEvent);
-        Picasso.with(NetworkingApplication.getInstance())
-                .load(String.format(mContext.getString(R.string.format_image_url),
-                        mContext.getString(R.string.url_base), eventsArrayList.get(position).getAvatar()))
-                .transform(new RoundedCornersTransform())
-                .into(holder.imageViewIconReferent);
         holder.textViewDescriptionEvent.setText(eventsArrayList.get(position).getDescription());
         holder.textViewEventName.setText(eventsArrayList.get(position).getName());
     }
@@ -65,8 +60,6 @@ public class VerticalAssistmentAdapter extends RecyclerView.Adapter<VerticalAssi
         ImageView buttonAsistir;
         @BindView(R.id.imageViewEvent)
         ImageView imageViewEvent;
-        @BindView(R.id.imageViewIconReferent)
-        ImageView imageViewIconReferent;
         @BindView(R.id.textViewNameReferent)
         TextView textViewNameReferent;
         @BindView(R.id.textViewDescriptionEvent)

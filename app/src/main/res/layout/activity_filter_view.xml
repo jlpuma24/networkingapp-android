@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_alignParentTop="true"
+            android:background="@color/toolbarColor">
+
+            <TextView
+                android:id="@+id/headerBar"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/eventos"
+                android:textColor="@android:color/white" />
+
+        </android.support.v7.widget.Toolbar>
+
+        <EditText
+            android:id="@+id/editTextSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/toolbar"
+            android:gravity="center"
+            android:hint="@string/search_hint"
+            android:maxLines="1"
+            android:textColor="@android:color/black"
+            android:visibility="gone" />
+
+        <ListView
+            android:id="@+id/listViewData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/confirmButton"
+            android:layout_below="@+id/editTextSearch" />
+
+        <Button
+            android:id="@+id/confirmButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="@android:color/white"
+            android:gravity="center"
+            android:text="@string/confirm"
+            android:textColor="@color/darkBlue"
+            android:textSize="20sp" />
+
+    </RelativeLayout>
+
+</LinearLayout>
