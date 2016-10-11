@@ -1,5 +1,6 @@
 package com.networkingandroid.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -42,6 +43,7 @@ public class LoginActivity extends BaseActivity {
     @BindView(R.id.linkedinLogoTextView)
     TextView linkedinLogoTextView;
     private Bus mBus = BusProvider.getBus();
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,6 +78,7 @@ public class LoginActivity extends BaseActivity {
                         try { publicProfileUrl = responseJsonObject.getString(Constants.PUBLIC_PROFILE_URL); } catch (JSONException e){}
                         try { id = responseJsonObject.getString(Constants.ID_TAG); } catch (JSONException e){}
 
+                        prepareProgressDialog();
                         PrefsUtil.getInstance().setActiveAccount(sessionManager.getSession().getAccessToken().getValue(), emailAddress, firstName+" "+lastName, pictureUrl);
                         mBus.post(new LoginRequest(emailAddress, firstName, lastName, pictureUrl, publicProfileUrl, id));
                     }
@@ -106,6 +109,7 @@ public class LoginActivity extends BaseActivity {
 
     @Subscribe
     public void onSuccessLoginResponse(SuccessLoginResponseEvent successLoginResponseEvent){
+        progressDialog.dismiss();
         startActivity(new Intent(LoginActivity.this, SelectInterestActivity.class));
         PrefsUtil.getInstance().setUserIDLogged(successLoginResponseEvent.getResponse().getId());
         finish();
@@ -121,5 +125,12 @@ public class LoginActivity extends BaseActivity {
     protected void onStart() {
         super.onStart();
         mBus.register(this);
+    }
+
+    private void prepareProgressDialog(){
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage(getString(R.string.loading_data));
+        progressDialog.show();
     }
 }

@@ -28,7 +28,7 @@
             <ImageView
                 android:layout_width="@dimen/width_assist_button"
                 android:layout_height="@dimen/height_assist_button"
-                android:src="@drawable/boton_asistencia"
+                android:src="@drawable/attend"
                 android:id="@+id/buttonAsistir"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true" />

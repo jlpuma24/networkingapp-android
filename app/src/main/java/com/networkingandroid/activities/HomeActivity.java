@@ -159,12 +159,12 @@ public class HomeActivity extends BaseActivity {
     }
 
     private void setupToolbar() {
-        toolbar.setNavigationIcon(ContextCompat.getDrawable(this, R.drawable.ic_back));
+        toolbar.setNavigationIcon(ContextCompat.getDrawable(this, R.drawable.menu));
         toolbar.inflateMenu(R.menu.main_menu);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                drawer.openDrawer(navigationView);
             }
         });
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
@@ -193,6 +193,7 @@ public class HomeActivity extends BaseActivity {
                         (keyCode == KeyEvent.KEYCODE_ENTER)) {
                     hideKeyboard();
                     prepareProgressDialog();
+                    editTextSearch.setText("");
                     mBus.post(new RequestEventsByNameEvent(editTextSearch.getText().toString()));
                     return true;
                 }

@@ -22,6 +22,10 @@
             android:name=".activities.SplashActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".activities.LoginActivity"
@@ -34,29 +38,21 @@
         <activity
             android:name=".activities.AttendanceActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden">
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name=".activities.SelectInterestActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden">
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
 
         <activity
             android:name=".activities.FilterIndustriesActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden" />
 
         <activity
             android:name=".activities.HomeActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -74,8 +70,7 @@
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps"></activity>
 
-        <activity android:name=".TestEditText">
-            </activity>
+        <activity android:name=".TestEditText"></activity>
     </application>
 
 </manifest>
