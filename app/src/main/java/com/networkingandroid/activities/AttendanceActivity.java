@@ -110,7 +110,8 @@ public class AttendanceActivity extends BaseActivity {
         textViewSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                startActivity(new Intent(AttendanceActivity.this, SettingsActivity.class));
+                finish();
             }
         });
     }
