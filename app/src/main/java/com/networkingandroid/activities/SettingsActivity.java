@@ -2,20 +2,19 @@ package com.networkingandroid.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.SearchView;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.networkingandroid.R;
-import com.networkingandroid.adapters.CustomAlertAdapter;
 import com.networkingandroid.network.BusProvider;
 import com.networkingandroid.network.events.AreasResultEvents;
 import com.networkingandroid.network.events.IndustriesResultsFilter;
@@ -26,10 +25,12 @@ import com.networkingandroid.network.events.SuccessIndustriesResponseEvent;
 import com.networkingandroid.network.model.ApplicationData;
 import com.networkingandroid.network.model.Area;
 import com.networkingandroid.network.model.Industry;
-import com.networkingandroid.util.OnFilterEvents;
 import com.networkingandroid.util.PrefsUtil;
+import com.networkingandroid.util.RoundedCornersTransform;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -38,10 +39,30 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by Usuario on 16/09/2016.
+ * Created by Usuario on 11/10/2016.
  */
-public class SelectInterestActivity extends BaseActivity {
+public class SettingsActivity extends BaseActivity {
 
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.headerBar)
+    TextView headerBar;
+    @BindView(R.id.imageViewUser)
+    ImageView imageViewUser;
+    @BindView(R.id.editTextUserName)
+    EditText editTextUserName;
+    @BindView(R.id.editTextUserMail)
+    EditText editTextUserMail;
+    @BindView(R.id.editTextIntereses)
+    EditText editTextIntereses;
+    @BindView(R.id.editTextArea)
+    EditText editTextArea;
+    @BindView(R.id.containerAreas)
+    LinearLayout containerAreas;
+    @BindView(R.id.containerIndustries)
+    LinearLayout containerIndustries;
+    @BindView(R.id.buttonEntrar)
+    Button buttonLogout;
     private Bus mBus = BusProvider.getBus();
     private ArrayList<Area> areaArrayList;
     private ArrayList<String> industries = new ArrayList<String>();
@@ -51,27 +72,57 @@ public class SelectInterestActivity extends BaseActivity {
     private final int RESULT_AREAS = 3;
     private ApplicationData applicationData = new ApplicationData();
     private ProgressDialog mAlertDialog;
-    @BindView(R.id.editTextIntereses)
-    EditText editTextIntereses;
-    @BindView(R.id.editTextArea)
-    EditText editTextArea;
-    @BindView(R.id.containerAreas)
-    LinearLayout containerAreas;
-    @BindView(R.id.containerIndustries)
-    LinearLayout containerIndustries;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_interest_areas);
+        setContentView(R.layout.activity_settings);
         ButterKnife.bind(this);
+        prepareToolbar();
+        setUpInfoUser();
+        prepareRequestData();
+    }
+
+    private void prepareRequestData(){
         mAlertDialog = new ProgressDialog(this);
         mAlertDialog.setMessage(getString(R.string.loading_data));
         mAlertDialog.setCancelable(false);
-        mAlertDialog.show();
         containerIndustries.removeAllViews();
         containerAreas.removeAllViews();
+        mAlertDialog.show();
         mBus.post(new RequestIndustries());
+    }
+
+    private void prepareToolbar() {
+        toolbar.setNavigationIcon(ContextCompat.getDrawable(this, R.drawable.ic_back));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SettingsActivity.this, HomeActivity.class));
+            }
+        });
+        headerBar.setText(getString(R.string.settings));
+    }
+
+    private void setUpInfoUser() {
+        Picasso.with(this)
+                .load(PrefsUtil.getInstance().getPrefs().getString(PrefsUtil.PICTURE_USER_DATA, ""))
+                .transform(new RoundedCornersTransform())
+                .into(imageViewUser, new Callback() {
+                    @Override
+                    public void onSuccess() {
+
+                    }
+
+                    @Override
+                    public void onError() {
+
+                    }
+                });
+
+        editTextUserName.setText(PrefsUtil.getInstance().getPrefs().getString(PrefsUtil.NAME_USER_DATA, ""));
+        editTextUserMail.setText(PrefsUtil.getInstance().getPrefs().getString(PrefsUtil.EMAIL_ACTIVE_ACCOUNT_ID, ""));
+        buttonLogout.setPaintFlags(buttonLogout.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
     }
 
     @OnClick(R.id.editTextIntereses)
@@ -88,13 +139,6 @@ public class SelectInterestActivity extends BaseActivity {
         intent.putExtra("isIndustries", false);
         intent.putExtra("applicationData", applicationData);
         startActivityForResult(intent, 1);
-    }
-
-    private void hideKeyboard() {
-        if (getCurrentFocus() != null) {
-            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-        }
     }
 
     private TextView inflateInterestArea(final String value, final boolean isIndustry, boolean isFirst){
@@ -129,13 +173,6 @@ public class SelectInterestActivity extends BaseActivity {
             }
         }
     }
-
-    @OnClick(R.id.buttonContinuar)
-    public void onButtonContinuarClicked(){
-        startActivity(new Intent(this,HomeActivity.class));
-        finish();
-    }
-
     @Override
     protected void onStart() {
         super.onStart();

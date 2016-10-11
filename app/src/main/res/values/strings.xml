@@ -42,4 +42,8 @@
     <string name="confirm">CONFIRM</string>
     <string name="search_hint">Search..</string>
     <string name="no_results">This search returned no results, please try again</string>
+    <string name="default_location">Bogotá, Colombia</string>
+    <string name="type_industry">Type of industry:</string>
+    <string name="area_interest">Area of interest:</string>
+    <string name="log_out"><u>LOG OUT</u></string>
 </resources>

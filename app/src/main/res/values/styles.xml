@@ -17,4 +17,21 @@
         <item name="colorControlNormal">#ffffff</item>
     </style>
 
+    <style name="RegisterViewLabelItem">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+
+    <style name="RegisterViewEditText" parent="RegisterViewLabelItem">
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/textDark</item>
+        <item name="android:paddingLeft">@dimen/small_space</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
 </resources>

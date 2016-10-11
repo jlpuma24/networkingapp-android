@@ -26,4 +26,6 @@
     <dimen name="margin_right_left_recycler">10dp</dimen>
     <dimen name="margin_bottom_recycler">8dp</dimen>
     <dimen name="measures_share_button">8dp</dimen>
+
+    <dimen name="small_space">8dp</dimen>
 </resources>
