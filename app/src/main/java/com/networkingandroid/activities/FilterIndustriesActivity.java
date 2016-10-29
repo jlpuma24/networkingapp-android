@@ -55,6 +55,8 @@ public class FilterIndustriesActivity extends BaseActivity {
     private OnFilterEvents onFilterEvents;
     private final int RESULT_INDUSTRIES = 2;
     private final int RESULT_AREAS = 3;
+    private String[] arrayPivotAdapter;
+    private boolean itsTextChanged = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -85,6 +87,7 @@ public class FilterIndustriesActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int position, int i1, int i2) {
+                itsTextChanged = true;
                 ArrayList<String> results = new ArrayList<String>();
                 ArrayList<Industry> industries = applicationData.getIndustryArrayList();
                 ArrayList<Area> areas = applicationData.getAreaArrayList();
@@ -104,6 +107,7 @@ public class FilterIndustriesActivity extends BaseActivity {
                 }
                 String[] arrayAdapter = new String[results.size()];
                 arrayAdapter = results.toArray(arrayAdapter);
+                arrayPivotAdapter = arrayAdapter;
 
                 listViewData.setAdapter(new ArrayAdapter<String>(FilterIndustriesActivity.this,
                         android.R.layout.simple_list_item_multiple_choice, arrayAdapter));
@@ -164,7 +168,10 @@ public class FilterIndustriesActivity extends BaseActivity {
         for (int i = 0; i < checked.size(); i++) {
             int position = checked.keyAt(i);
             if (checked.valueAt(i))
-                selectedItems.add(adapter.getItem(position));
+                if (!itsTextChanged)
+                    selectedItems.add(adapter.getItem(position));
+                else
+                    selectedItems.add(arrayPivotAdapter[position]);
         }
         if (isIndustries){
             Intent intent = new Intent();

@@ -110,8 +110,10 @@ public class LoginActivity extends BaseActivity {
     @Subscribe
     public void onSuccessLoginResponse(SuccessLoginResponseEvent successLoginResponseEvent){
         progressDialog.dismiss();
-        startActivity(new Intent(LoginActivity.this, SelectInterestActivity.class));
+        Intent intent = new Intent(LoginActivity.this, SelectInterestActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PrefsUtil.getInstance().setUserIDLogged(successLoginResponseEvent.getResponse().getId());
+        startActivity(intent);
         finish();
     }
 

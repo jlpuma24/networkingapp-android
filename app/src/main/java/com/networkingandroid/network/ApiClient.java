@@ -5,6 +5,8 @@ import android.content.Context;
 import com.networkingandroid.network.events.AttendanceEventResponse;
 import com.networkingandroid.network.events.AttendanceResponse;
 import com.networkingandroid.network.events.EventsResponse;
+import com.networkingandroid.network.events.RequestEvents;
+import com.networkingandroid.network.events.RequestFilterEvents;
 import com.networkingandroid.network.events.SuccessAreasResponseEvent;
 import com.networkingandroid.network.events.SuccessIndustriesResponseEvent;
 import com.networkingandroid.network.model.LoginRequest;
@@ -100,9 +102,14 @@ public class ApiClient {
         }
     }
 
-    public Call<EventsResponse> getEvents(){
+    public Call<EventsResponse> getEvents(RequestEvents requestEvents){
         ApiService apiService = retrofitAdapter.create(ApiService.class);
-        return apiService.getEvents();
+        return apiService.getEvents(requestEvents.getPage(), requestEvents.getOffset());
+    }
+
+    public Call<EventsResponse> getEvents(RequestFilterEvents requestEvents){
+        ApiService apiService = retrofitAdapter.create(ApiService.class);
+        return apiService.getEvents(requestEvents.getPage(), requestEvents.getOffset());
     }
 
     public Call<SuccessIndustriesResponseEvent> getIndustries(){

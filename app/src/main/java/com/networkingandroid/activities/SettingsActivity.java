@@ -1,11 +1,13 @@
 package com.networkingandroid.activities;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
@@ -83,7 +85,7 @@ public class SettingsActivity extends BaseActivity {
         prepareRequestData();
     }
 
-    private void prepareRequestData(){
+    private void prepareRequestData() {
         mAlertDialog = new ProgressDialog(this);
         mAlertDialog.setMessage(getString(R.string.loading_data));
         mAlertDialog.setCancelable(false);
@@ -126,7 +128,7 @@ public class SettingsActivity extends BaseActivity {
     }
 
     @OnClick(R.id.editTextIntereses)
-    public void onEditTextInteresesClicked(){
+    public void onEditTextInteresesClicked() {
         Intent intent = new Intent(this, FilterIndustriesActivity.class);
         intent.putExtra("isIndustries", true);
         intent.putExtra("applicationData", applicationData);
@@ -134,20 +136,20 @@ public class SettingsActivity extends BaseActivity {
     }
 
     @OnClick(R.id.editTextArea)
-    public void onEditTextAreaClicked(){
+    public void onEditTextAreaClicked() {
         Intent intent = new Intent(this, FilterIndustriesActivity.class);
         intent.putExtra("isIndustries", false);
         intent.putExtra("applicationData", applicationData);
         startActivityForResult(intent, 1);
     }
 
-    private TextView inflateInterestArea(final String value, final boolean isIndustry, boolean isFirst){
+    private TextView inflateInterestArea(final String value, final boolean isIndustry, boolean isFirst) {
         View child = getLayoutInflater().inflate(R.layout.word, null);
         TextView word = (TextView) child.findViewById(R.id.textViewWord);
         if (isFirst)
             word.setText(value);
         else
-            word.setText(" |  "+ value);
+            word.setText(" |  " + value);
         word.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -157,15 +159,14 @@ public class SettingsActivity extends BaseActivity {
         return word;
     }
 
-    private void removeItem(String value, boolean isIndustry){
-        if (isIndustry){
+    private void removeItem(String value, boolean isIndustry) {
+        if (isIndustry) {
             industries.remove(value);
             containerIndustries.removeAllViews();
             for (int i = 0; i < industries.size(); i++) {
                 containerIndustries.addView(inflateInterestArea(industries.get(i), true, i == 0));
             }
-        }
-        else {
+        } else {
             areas.remove(value);
             containerAreas.removeAllViews();
             for (int i = 0; i < areas.size(); i++) {
@@ -173,6 +174,7 @@ public class SettingsActivity extends BaseActivity {
             }
         }
     }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -185,20 +187,45 @@ public class SettingsActivity extends BaseActivity {
         mBus.unregister(this);
     }
 
+    @OnClick(R.id.buttonEntrar)
+    public void onLogoutButtonClicked() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder
+                .setMessage(getString(R.string.logout_message))
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // if this button is clicked, close
+                        // current activity
+                        Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                        finish();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
     @Subscribe
-    public void onSuccessIndustriesEvent(SuccessIndustriesResponseEvent successIndustriesResponseEvent){
+    public void onSuccessIndustriesEvent(SuccessIndustriesResponseEvent successIndustriesResponseEvent) {
         industryArrayList = successIndustriesResponseEvent.getResponse();
         applicationData.setIndustryArrayList(industryArrayList);
         mBus.post(new RequestAreas());
     }
 
     @Subscribe
-    public void onSuccessAreaEvent(SuccessAreasResponseEvent successAreasResponseEvent){
+    public void onSuccessAreaEvent(SuccessAreasResponseEvent successAreasResponseEvent) {
         applicationData.setAreaArrayList(successAreasResponseEvent.getResponse());
         mAlertDialog.dismiss();
     }
 
-    public void onFilterIndustryEvent(IndustriesResultsFilter industriesResultsFilter){
+    public void onFilterIndustryEvent(IndustriesResultsFilter industriesResultsFilter) {
         containerIndustries.removeAllViews();
         industries = industriesResultsFilter.getResults();
         for (int i = 0; i < industries.size(); i++) {
@@ -207,7 +234,7 @@ public class SettingsActivity extends BaseActivity {
 
     }
 
-    public void onFilterEventsEvent(AreasResultEvents areasResultEvents){
+    public void onFilterEventsEvent(AreasResultEvents areasResultEvents) {
         containerAreas.removeAllViews();
         areas = areasResultEvents.getResults();
         for (int i = 0; i < areas.size(); i++) {
@@ -218,10 +245,10 @@ public class SettingsActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1){
-            if (resultCode == RESULT_INDUSTRIES){
+        if (requestCode == 1) {
+            if (resultCode == RESULT_INDUSTRIES) {
                 onFilterIndustryEvent((IndustriesResultsFilter) data.getSerializableExtra("data"));
-            } else if(resultCode == RESULT_AREAS){
+            } else if (resultCode == RESULT_AREAS) {
                 onFilterEventsEvent((AreasResultEvents) data.getSerializableExtra("data"));
             }
         }

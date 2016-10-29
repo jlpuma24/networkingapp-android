@@ -1,13 +1,13 @@
 package com.networkingandroid.network.events;
 
 /**
- * Created by Usuario on 17/09/2016.
+ * Created by Usuario on 26/10/2016.
  */
-public class RequestEvents {
+public class RequestFilterEvents {
     private long page;
     private long offset;
 
-    public RequestEvents(long page, long offset) {
+    public RequestFilterEvents(long page, long offset) {
         this.page = page;
         this.offset = offset;
     }

@@ -12,6 +12,7 @@
     <string name="asistir">ASSIST</string>
     <string name="asistencia">ATTENDANCE</string>
     <string name="eventos">EVENTS</string>
+    <string name="detail">EVENT DETAIL</string>
     <string name="title_activity_maps">Map</string>
     <string name="continuar">CONTINUE</string>
     
@@ -46,4 +47,13 @@
     <string name="type_industry">Type of industry:</string>
     <string name="area_interest">Area of interest:</string>
     <string name="log_out"><u>LOG OUT</u></string>
+
+    <string name="address"><b>Address</b></string>
+    <string name="hour"><b>Hour</b></string>
+
+    <string name="format_address_hour">%1$s: %2$s</string>
+
+    <string name="pick_here">Pick here</string>
+    <string name="persons_attend">People attending</string>
+    <string name="logout_message">Do you want to logout?</string>
 </resources>

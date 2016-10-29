@@ -10,6 +10,7 @@ import com.networkingandroid.network.events.RequestAttendanceEvent;
 import com.networkingandroid.network.events.RequestAttendances;
 import com.networkingandroid.network.events.RequestEvents;
 import com.networkingandroid.network.events.RequestEventsByNameEvent;
+import com.networkingandroid.network.events.RequestFilterEvents;
 import com.networkingandroid.network.events.RequestIndustries;
 import com.networkingandroid.network.events.SuccessAreasResponseEvent;
 import com.networkingandroid.network.events.SuccessIndustriesResponseEvent;
@@ -39,7 +40,7 @@ public class ApiCallsManager {
 
     @Subscribe
     public void getEvents(RequestEvents requestEvents){
-        mApiClient.getEvents().enqueue(new Callback<EventsResponse>() {
+        mApiClient.getEvents(requestEvents).enqueue(new Callback<EventsResponse>() {
             @Override
             public void onResponse(Call<EventsResponse> call, Response<EventsResponse> response) {
                 if (response.isSuccessful()){
@@ -168,6 +169,25 @@ public class ApiCallsManager {
                 }
             }
 
+            @Override
+            public void onFailure(Call<EventsResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Subscribe
+    public void getEvents(RequestFilterEvents requestEvents){
+        mApiClient.getEvents(requestEvents).enqueue(new Callback<EventsResponse>() {
+            @Override
+            public void onResponse(Call<EventsResponse> call, Response<EventsResponse> response) {
+                if (response.isSuccessful()){
+                    mBus.post(response.body());
+                }
+                else {
+                    mBus.post(ErrorUtils.parseRretrofitError(response, mApiClient.getRetrofitAdapter()));
+                }
+            }
             @Override
             public void onFailure(Call<EventsResponse> call, Throwable t) {
 

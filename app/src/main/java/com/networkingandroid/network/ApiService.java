@@ -19,7 +19,7 @@ import retrofit2.http.Query;
  */
 public interface ApiService {
     @GET("api/events")
-    Call<EventsResponse> getEvents();
+    Call<EventsResponse> getEvents(@Query("page") long page, @Query("offset") long offset);
 
     @POST("sign_in")
     Call<SuccessLoginResponseEvent> doLogin(@Query("email") String email,

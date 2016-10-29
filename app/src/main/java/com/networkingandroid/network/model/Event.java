@@ -1,9 +1,12 @@
 package com.networkingandroid.network.model;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+
 /**
  * Created by Usuario on 17/09/2016.
  */
-public class Event {
+public class Event implements Serializable{
     private long id;
     private String name;
     private String description;
@@ -12,6 +15,7 @@ public class Event {
     private String cover;
     private long capacity;
     private Place place;
+    private ArrayList<UserAttending> users_attending;
 
     public long getId() {
         return id;
@@ -43,5 +47,9 @@ public class Event {
 
     public Place getPlace() {
         return place;
+    }
+
+    public ArrayList<UserAttending> getUsers_attending() {
+        return users_attending;
     }
 }

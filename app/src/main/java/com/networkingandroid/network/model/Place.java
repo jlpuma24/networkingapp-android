@@ -1,9 +1,11 @@
 package com.networkingandroid.network.model;
 
+import java.io.Serializable;
+
 /**
  * Created by Usuario on 17/09/2016.
  */
-public class Place {
+public class Place implements Serializable{
     private long id;
     private String name;
     private String address;

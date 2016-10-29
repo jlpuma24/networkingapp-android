@@ -17,6 +17,7 @@ import com.networkingandroid.NetworkingApplication;
 import com.networkingandroid.R;
 import com.networkingandroid.network.events.RequestAttendanceEvent;
 import com.networkingandroid.network.model.Event;
+import com.networkingandroid.network.model.UserAttending;
 import com.networkingandroid.util.PrefsUtil;
 import com.networkingandroid.util.RoundedCornersTransform;
 import com.squareup.otto.Bus;
@@ -42,11 +43,20 @@ public class VerticalEventsAdapter extends RecyclerView.Adapter<VerticalEventsAd
         this.mBus = mBus;
     }
 
+    public VerticalEventsAdapter(Context mContext, Bus mBus){
+        this.mContext = mContext;
+        this.mBus = mBus;
+    }
+
     @Override
     public EventsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.row_event, parent, false);
         return new EventsViewHolder(itemView);
+    }
+
+    public ArrayList<Event> getItems(){
+        return eventsArrayList;
     }
 
     @Override
@@ -65,6 +75,33 @@ public class VerticalEventsAdapter extends RecyclerView.Adapter<VerticalEventsAd
                     PrefsUtil.getInstance().getPrefs().getLong(PrefsUtil.USER_ID_LOGGED,0), eventsArrayList.get(position).getId()));
             }
         });
+
+        if (validateAssist(eventsArrayList.get(position).getUsers_attending())){
+            holder.buttonAsistir.setImageResource(R.drawable.attend);
+        }
+        else {
+            holder.buttonAsistir.setImageResource(R.drawable.assist);
+        }
+    }
+
+    public void setItems(ArrayList<Event> eventsArrayList){
+        this.eventsArrayList = eventsArrayList;
+        notifyDataSetChanged();
+    }
+
+    private boolean validateAssist(ArrayList<UserAttending> attendings){
+        if (attendings != null && !attendings.isEmpty()) {
+            for (UserAttending userAttending : attendings) {
+                try {
+                    if (userAttending.getId() == PrefsUtil.getInstance().getPrefs().getLong(PrefsUtil.USER_ID_LOGGED, 0))
+                        return true;
+                } catch (NullPointerException e){
+
+                }
+            }
+            return false;
+        }
+        return false;
     }
 
     @Override
