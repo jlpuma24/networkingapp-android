@@ -41,6 +41,8 @@
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:layout_marginTop="20dp"
+            android:focusable="false"
+            android:clickable="true"
             android:orientation="vertical">
 
             <TextView
@@ -58,32 +60,48 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
+                    android:id="@+id/industriesContainerArea"
                     android:layout_height="match_parent">
 
-                    <EditText
+                    <TextView
                         android:id="@+id/editTextIntereses"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentStart="true"
-                        android:backgroundTint="@android:color/white"
-                        android:hint="@string/pick_here"
+                        android:layout_marginTop="10dp"
                         android:gravity="center"
-                        android:textColorHint="@android:color/white"
-                        android:editable="false"
+                        android:focusable="false"
+                        android:hint="@string/pick_here"
                         android:maxLines="1"
-                        android:textColor="@android:color/white" />
+                        android:textSize="20sp"
+                        android:padding="10dp"
+                        android:textColor="@android:color/white"
+                        android:textColorHint="@android:color/white"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true" />
+
+                    <View
+                        android:layout_width="200dp"
+                        android:layout_height="2dp"
+                        android:background="@android:color/white"
+                        android:layout_alignBottom="@+id/editTextIntereses"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="10dp"
+                        android:layout_toLeftOf="@+id/imageViewPlusIndustries"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true" />
 
                     <ImageView
                         android:id="@+id/imageViewPlusIndustries"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
+                        android:src="@drawable/ic_plus"
+                        android:paddingBottom="-20dp"
+                        android:layout_centerVertical="true"
                         android:layout_alignParentRight="true"
-                        android:layout_alignParentTop="true"
-                        android:src="@drawable/ic_plus" />
+                        android:layout_alignParentEnd="true" />
 
                 </RelativeLayout>
             </LinearLayout>
@@ -119,6 +137,8 @@
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:layout_marginTop="20dp"
+            android:focusable="false"
+            android:clickable="true"
             android:orientation="vertical">
 
             <TextView
@@ -137,32 +157,49 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
+                    android:id="@+id/areasContainerArea"
                     android:layout_height="match_parent">
 
-                    <EditText
+                    <TextView
                         android:id="@+id/editTextArea"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentStart="true"
-                        android:hint="@string/pick_here"
+                        android:layout_marginTop="10dp"
                         android:gravity="center"
-                        android:textColorHint="@android:color/white"
-                        android:backgroundTint="@android:color/white"
-                        android:editable="false"
+                        android:focusable="false"
+                        android:hint="@string/pick_here"
                         android:maxLines="1"
-                        android:textColor="@android:color/white" />
+                        android:textSize="20sp"
+                        android:padding="10dp"
+                        android:textColor="@android:color/white"
+                        android:textColorHint="@android:color/white"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true" />
+
+                    <View
+                        android:layout_width="200dp"
+                        android:layout_height="2dp"
+                        android:background="@android:color/white"
+                        android:layout_alignBottom="@+id/editTextArea"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="10dp"
+                        android:layout_toLeftOf="@+id/imageViewPlusAreas"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true" />
+
 
                     <ImageView
                         android:id="@+id/imageViewPlusAreas"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
+                        android:src="@drawable/ic_plus"
+                        android:paddingBottom="-20dp"
+                        android:layout_centerVertical="true"
                         android:layout_alignParentRight="true"
-                        android:layout_alignParentTop="true"
-                        android:src="@drawable/ic_plus" />
+                        android:layout_alignParentEnd="true" />
 
                 </RelativeLayout>
             </LinearLayout>

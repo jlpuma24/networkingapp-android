@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.networkingandroid.R;
@@ -52,13 +53,17 @@ public class SelectInterestActivity extends BaseActivity {
     private ApplicationData applicationData = new ApplicationData();
     private ProgressDialog mAlertDialog;
     @BindView(R.id.editTextIntereses)
-    EditText editTextIntereses;
+    TextView editTextIntereses;
     @BindView(R.id.editTextArea)
-    EditText editTextArea;
+    TextView editTextArea;
     @BindView(R.id.containerAreas)
     LinearLayout containerAreas;
     @BindView(R.id.containerIndustries)
     LinearLayout containerIndustries;
+    @BindView(R.id.industriesContainerArea)
+    RelativeLayout industriesContainerArea;
+    @BindView(R.id.areasContainerArea)
+    RelativeLayout areasContainerArea;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,10 +76,22 @@ public class SelectInterestActivity extends BaseActivity {
         mAlertDialog.show();
         containerIndustries.removeAllViews();
         containerAreas.removeAllViews();
+        industriesContainerArea.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onEditTextInteresesClicked();
+            }
+        });
+
+        areasContainerArea.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onEditTextAreaClicked();
+            }
+        });
         mBus.post(new RequestIndustries());
     }
 
-    @OnClick(R.id.editTextIntereses)
     public void onEditTextInteresesClicked(){
         Intent intent = new Intent(this, FilterIndustriesActivity.class);
         intent.putExtra("isIndustries", true);
@@ -82,7 +99,6 @@ public class SelectInterestActivity extends BaseActivity {
         startActivityForResult(intent, 1);
     }
 
-    @OnClick(R.id.editTextArea)
     public void onEditTextAreaClicked(){
         Intent intent = new Intent(this, FilterIndustriesActivity.class);
         intent.putExtra("isIndustries", false);

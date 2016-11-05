@@ -92,6 +92,8 @@ public class HomeActivity extends BaseActivity {
         prepareEditTextSearch();
         prepareProgressDialog();
         prepareSwipeLayout();
+        LinearLayoutManager verticalLayoutmanager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        recyclerViewEvents.setLayoutManager(verticalLayoutmanager);
         verticalEventsAdapter = new VerticalEventsAdapter(this, mBus);
         recyclerViewEvents.setAdapter(verticalEventsAdapter);
         mBus.post(new RequestEvents(page, offset));
@@ -173,10 +175,7 @@ public class HomeActivity extends BaseActivity {
         progressDialog.dismiss();
         if (!eventsResponse.getResponse().isEmpty()) {
             swipeRefreshLayout.setRefreshing(false);
-            LinearLayoutManager verticalLayoutmanager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-            recyclerViewEvents.setLayoutManager(verticalLayoutmanager);
             addItemsToAdapter(eventsResponse.getResponse());
-            recyclerViewEvents.setAdapter(verticalEventsAdapter);
             RecyclerItemClickSupport.addTo(recyclerViewEvents).setOnItemClickListener(new RecyclerItemClickSupport.OnItemClickListener() {
                 @Override
                 public void onItemClicked(RecyclerView recyclerView, int position, View v) {
@@ -201,8 +200,6 @@ public class HomeActivity extends BaseActivity {
                     }
                 }
             });
-        } else {
-
         }
     }
 

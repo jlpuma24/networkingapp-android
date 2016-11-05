@@ -4,8 +4,8 @@
     <string name="linkedin_url">https://api.linkedin.com/v1/people/~:(id,num-connections,picture-url,email-address,first-name,last-name,public-profile-url)</string>
     <string name="error_login">Existió un error al momento de iniciar sesión, por favor intenta nuevamente</string>
     <string name="entrar">ENTER</string>
-    <string name="entrar_label">To connect\nyou need to enter \nwith your account</string>
-    <string name="de">of</string>
+    <string name="entrar_label">To log in input your </string>
+    <string name="de">username and password</string>
 
     <string name="url_base">http://nwmeeting.com</string>
     <string name="format_image_url">%1$s%2$s</string>
@@ -24,9 +24,9 @@
     <string name="selecciona_area">Pick an area</string>
     <string name="buscar">Buscar</string>
 
-    <string name="on_boarding_two">Review in detail \nevents (industry\nplace and date)</string>
-    <string name="on_boarding_one">Corroborates the city\nwhere you want to view events</string>
-    <string name="on_boarding_three">Confirms attendance\nto the event you \nwant to participate</string>
+    <string name="on_boarding_two">Check the event\'s details (industry, place and date)</string>
+    <string name="on_boarding_one">Validates the city\nwhere you are</string>
+    <string name="on_boarding_three">Don’t forget to confirm\nyou\'re going to attend!</string>
     
     <string name="home">HOME</string>
     <string name="attendances">ATTENDANCES</string>
@@ -56,4 +56,5 @@
     <string name="pick_here">Pick here</string>
     <string name="persons_attend">People attending</string>
     <string name="logout_message">Do you want to logout?</string>
+    <string name="unattend_message">You want to stop attending this event?</string>
 </resources>

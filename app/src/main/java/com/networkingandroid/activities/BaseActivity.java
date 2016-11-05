@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
- * @author Jose Rodriguez
+ * @author jl.rodriguez
  */
 public class BaseActivity extends AppCompatActivity {
 

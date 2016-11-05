@@ -22,10 +22,6 @@
             android:name=".activities.SplashActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".activities.LoginActivity"
@@ -46,7 +42,13 @@
         <activity
             android:name=".activities.SelectInterestActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
 
         <activity
             android:name=".activities.FilterIndustriesActivity"

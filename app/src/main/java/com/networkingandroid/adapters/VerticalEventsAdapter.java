@@ -1,7 +1,9 @@
 package com.networkingandroid.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,6 +17,9 @@ import android.widget.TextView;
 
 import com.networkingandroid.NetworkingApplication;
 import com.networkingandroid.R;
+import com.networkingandroid.activities.HomeActivity;
+import com.networkingandroid.activities.LoginActivity;
+import com.networkingandroid.activities.SettingsActivity;
 import com.networkingandroid.network.events.RequestAttendanceEvent;
 import com.networkingandroid.network.model.Event;
 import com.networkingandroid.network.model.UserAttending;
@@ -44,6 +49,7 @@ public class VerticalEventsAdapter extends RecyclerView.Adapter<VerticalEventsAd
     }
 
     public VerticalEventsAdapter(Context mContext, Bus mBus){
+        this.eventsArrayList = new ArrayList<Event>();
         this.mContext = mContext;
         this.mBus = mBus;
     }
@@ -60,7 +66,7 @@ public class VerticalEventsAdapter extends RecyclerView.Adapter<VerticalEventsAd
     }
 
     @Override
-    public void onBindViewHolder(EventsViewHolder holder, final int position) {
+    public void onBindViewHolder(final EventsViewHolder holder, final int position) {
         Picasso.with(NetworkingApplication.getInstance())
                 .load(String.format(mContext.getString(R.string.format_image_url),
                         mContext.getString(R.string.url_base), eventsArrayList.get(position).getCover()))
@@ -68,19 +74,49 @@ public class VerticalEventsAdapter extends RecyclerView.Adapter<VerticalEventsAd
         holder.textViewCityEvent.setText(eventsArrayList.get(position).getPlace().getName()+", "+eventsArrayList.get(position).getPlace().getAddress());
         holder.textViewDescriptionEvent.setText(eventsArrayList.get(position).getDescription());
         holder.textViewEventName.setText(eventsArrayList.get(position).getName());
-        holder.buttonAsistir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mBus.post(new RequestAttendanceEvent(
-                    PrefsUtil.getInstance().getPrefs().getLong(PrefsUtil.USER_ID_LOGGED,0), eventsArrayList.get(position).getId()));
-            }
-        });
 
         if (validateAssist(eventsArrayList.get(position).getUsers_attending())){
             holder.buttonAsistir.setImageResource(R.drawable.attend);
+            holder.buttonAsistir.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
+                    alertDialogBuilder
+                            .setMessage(mContext.getString(R.string.unattend_message))
+                            .setCancelable(false)
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    mBus.post(new RequestAttendanceEvent(
+                                            PrefsUtil.getInstance().getPrefs().getLong(PrefsUtil.USER_ID_LOGGED,0), eventsArrayList.get(position).getId()));
+                                    Intent intent = new Intent(mContext, HomeActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    mContext.startActivity(intent);
+                                    ((Activity)mContext).finish();
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+                    alertDialog.show();
+                }
+            });
         }
         else {
             holder.buttonAsistir.setImageResource(R.drawable.assist);
+            holder.buttonAsistir.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mBus.post(new RequestAttendanceEvent(
+                            PrefsUtil.getInstance().getPrefs().getLong(PrefsUtil.USER_ID_LOGGED,0), eventsArrayList.get(position).getId()));
+                    Intent intent = new Intent(mContext, HomeActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    mContext.startActivity(intent);
+                    ((Activity)mContext).finish();
+                }
+            });
         }
     }
 
