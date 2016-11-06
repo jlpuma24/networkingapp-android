@@ -5,10 +5,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,6 +29,7 @@ import com.networkingandroid.network.events.SuccessIndustriesResponseEvent;
 import com.networkingandroid.network.model.ApplicationData;
 import com.networkingandroid.network.model.Area;
 import com.networkingandroid.network.model.Industry;
+import com.networkingandroid.util.Constants;
 import com.networkingandroid.util.PrefsUtil;
 import com.networkingandroid.util.RoundedCornersTransform;
 import com.squareup.otto.Bus;
@@ -103,6 +106,37 @@ public class SettingsActivity extends BaseActivity {
                 startActivity(new Intent(SettingsActivity.this, HomeActivity.class));
             }
         });
+        toolbar.inflateMenu(R.menu.save_menu);
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.mSearch:
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SettingsActivity.this);
+                        alertDialogBuilder
+                                .setMessage(getString(R.string.save_user_data))
+                                .setCancelable(false)
+                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        // if this button is clicked, close
+                                        // current activity
+                                        Intent intent = new Intent(SettingsActivity.this, HomeActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                })
+                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+                        AlertDialog alertDialog = alertDialogBuilder.create();
+                        alertDialog.show();
+                }
+                return false;
+            }
+        });
         headerBar.setText(getString(R.string.settings));
     }
 
@@ -125,6 +159,7 @@ public class SettingsActivity extends BaseActivity {
         editTextUserName.setText(PrefsUtil.getInstance().getPrefs().getString(PrefsUtil.NAME_USER_DATA, ""));
         editTextUserMail.setText(PrefsUtil.getInstance().getPrefs().getString(PrefsUtil.EMAIL_ACTIVE_ACCOUNT_ID, ""));
         buttonLogout.setPaintFlags(buttonLogout.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        editTextUserMail.setEnabled(false);
     }
 
     @OnClick(R.id.editTextIntereses)

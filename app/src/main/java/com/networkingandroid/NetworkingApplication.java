@@ -4,11 +4,13 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
+import com.crashlytics.android.Crashlytics;
 import com.networkingandroid.network.ApiCallsManager;
 import com.networkingandroid.network.BusProvider;
 import com.networkingandroid.util.PrefsUtil;
 import com.squareup.otto.Bus;
 
+import io.fabric.sdk.android.Fabric;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 /**
@@ -23,6 +25,7 @@ public class NetworkingApplication extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
         mContext = this;
         //Setting up font for all project.
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()

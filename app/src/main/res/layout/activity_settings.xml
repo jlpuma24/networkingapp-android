@@ -13,6 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:layout_alignParentTop="true"
+            android:theme="@style/AppTheme.ActionBar"
             android:background="@color/toolbarColor">
 
             <TextView
@@ -21,7 +22,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="@string/eventos"
+                android:text="@string/settings"
                 android:textColor="@android:color/white" />
 
         </android.support.v7.widget.Toolbar>

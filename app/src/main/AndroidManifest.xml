@@ -22,6 +22,10 @@
             android:name=".activities.SplashActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".activities.LoginActivity"
@@ -43,11 +47,6 @@
             android:name=".activities.SelectInterestActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
         </activity>
 
         <activity
@@ -82,6 +81,9 @@
             android:label="@string/title_activity_maps"
             android:screenOrientation="portrait"></activity>
 
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="7a1ac8781c5637a774980f4eafa516ceddfc1fd3" />
     </application>
 
 </manifest>

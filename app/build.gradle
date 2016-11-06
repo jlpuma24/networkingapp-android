@@ -1,4 +1,19 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
 apply plugin: 'android-apt'
 
 android {
@@ -43,4 +58,7 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.2.1'
     compile 'com.google.android.gms:play-services:9.4.0'
     compile 'com.rohit.recycleritemclicksupport:recycleritemclicksupport:1.0.1'
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
+        transitive = true;
+    }
 }

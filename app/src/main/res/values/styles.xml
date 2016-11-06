@@ -13,6 +13,14 @@
         <item name="android:fitsSystemWindows">true</item>
     </style>
 
+    <style name="AppTheme.ActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="actionMenuTextColor">@android:color/white</item>
+    </style>
+
+    <style name="myCustomMenuTextApearance" parent="@android:style/TextAppearance.Widget.IconMenu.Item">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
     <style name="MyEditTextTheme">
         <item name="colorControlNormal">#ffffff</item>
     </style>
