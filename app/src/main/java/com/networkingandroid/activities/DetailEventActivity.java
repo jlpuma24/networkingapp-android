@@ -88,10 +88,14 @@ public class DetailEventActivity extends BaseActivity {
         int i = 0;
         for (UserAttending userAttending: attendings){
             if  (i == 0){
-                result = userAttending.getName()+" "+userAttending.getLast_name();
+                if (userAttending.getName() != null && userAttending.getLast_name() != null) {
+                    result = userAttending.getName() + " " + userAttending.getLast_name();
+                }
             }
             else {
-                result = result+ "\n"+ userAttending.getName()+" "+userAttending.getLast_name();
+                if (userAttending.getName() != null && userAttending.getLast_name() != null) {
+                    result = result + "\n" + userAttending.getName() + " " + userAttending.getLast_name();
+                }
             }
         }
         return result;
@@ -114,7 +118,10 @@ public class DetailEventActivity extends BaseActivity {
         else {
             buttonAsistir.setImageResource(R.drawable.assist);
         }
-        textViewPeopleAttend.setText(getUserAttends(event.getUsers_attending()));
+
+        if (event.getUsers_attending() != null && !event.getUsers_attending().isEmpty()) {
+            textViewPeopleAttend.setText(getUserAttends(event.getUsers_attending()));
+        }
     }
 
     private boolean validateAssist(ArrayList<UserAttending> attendings){

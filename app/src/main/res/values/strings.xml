@@ -29,7 +29,7 @@
     <string name="on_boarding_three">Don’t forget to confirm\nyou\'re going to attend!</string>
     
     <string name="home">HOME</string>
-    <string name="attendances">ATTENDANCES</string>
+    <string name="attendances">ATTENDING</string>
     <string name="settings">SETTINGS</string>
 
     <string name="no_attendances">Requests have not yet attendance at an event.</string>
