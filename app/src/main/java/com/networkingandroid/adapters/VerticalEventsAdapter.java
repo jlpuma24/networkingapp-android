@@ -9,26 +9,21 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.networkingandroid.NetworkingApplication;
 import com.networkingandroid.R;
 import com.networkingandroid.activities.HomeActivity;
-import com.networkingandroid.activities.LoginActivity;
-import com.networkingandroid.activities.SettingsActivity;
 import com.networkingandroid.network.events.RequestAttendanceEvent;
 import com.networkingandroid.network.model.Event;
 import com.networkingandroid.network.model.UserAttending;
 import com.networkingandroid.util.PrefsUtil;
-import com.networkingandroid.util.RoundedCornersTransform;
 import com.squareup.otto.Bus;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,46 +31,56 @@ import butterknife.ButterKnife;
 /**
  * Created by Usuario on 17/09/2016.
  */
-public class VerticalEventsAdapter extends RecyclerView.Adapter<VerticalEventsAdapter.EventsViewHolder>{
+public class VerticalEventsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private ArrayList<Event> eventsArrayList;
+    private static int EVENT_VIEW_TYPE = 0x01;
+    private static int LOADING_VIEW_TYPE = 0x02;
+
+    private List<Event> eventsArrayList;
     private Context mContext;
     private Bus mBus;
 
-    public VerticalEventsAdapter(ArrayList<Event> eventsArrayList, Context mContext, Bus mBus){
-        this.eventsArrayList = eventsArrayList;
-        this.mContext = mContext;
-        this.mBus = mBus;
-    }
-
-    public VerticalEventsAdapter(Context mContext, Bus mBus){
-        this.eventsArrayList = new ArrayList<Event>();
+    public VerticalEventsAdapter(Context mContext, Bus mBus) {
+        this.eventsArrayList = new ArrayList<>();
         this.mContext = mContext;
         this.mBus = mBus;
     }
 
     @Override
-    public EventsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.row_event, parent, false);
-        return new EventsViewHolder(itemView);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        RecyclerView.ViewHolder viewHolder;
+        View itemView;
+        if (viewType == EVENT_VIEW_TYPE) {
+            itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_event, parent, false);
+            viewHolder = new EventsViewHolder(itemView);
+        } else {
+            itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_loading, parent, false);
+            viewHolder = new LoadingViewHolder(itemView);
+        }
+        return viewHolder;
     }
 
-    public ArrayList<Event> getItems(){
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof EventsViewHolder) {
+            bindEventViewHolder((EventsViewHolder) holder, position);
+        }
+    }
+
+    public List<Event> getItems() {
         return eventsArrayList;
     }
 
-    @Override
-    public void onBindViewHolder(final EventsViewHolder holder, final int position) {
+    private void bindEventViewHolder(final EventsViewHolder holder, final int position) {
         Picasso.with(NetworkingApplication.getInstance())
                 .load(String.format(mContext.getString(R.string.format_image_url),
                         mContext.getString(R.string.url_base), eventsArrayList.get(position).getCover()))
                 .into(holder.imageViewEvent);
-        holder.textViewCityEvent.setText(eventsArrayList.get(position).getPlace().getName()+", "+eventsArrayList.get(position).getPlace().getAddress());
+        holder.textViewCityEvent.setText(eventsArrayList.get(position).getPlace().getName() + ", " + eventsArrayList.get(position).getPlace().getAddress());
         holder.textViewDescriptionEvent.setText(eventsArrayList.get(position).getDescription());
         holder.textViewEventName.setText(eventsArrayList.get(position).getName());
 
-        if (validateAssist(eventsArrayList.get(position).getUsers_attending())){
+        if (validateAssist(eventsArrayList.get(position).getUsers_attending())) {
             holder.buttonAsistir.setImageResource(R.drawable.attend);
             holder.buttonAsistir.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -87,11 +92,11 @@ public class VerticalEventsAdapter extends RecyclerView.Adapter<VerticalEventsAd
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     mBus.post(new RequestAttendanceEvent(
-                                            PrefsUtil.getInstance().getPrefs().getLong(PrefsUtil.USER_ID_LOGGED,0), eventsArrayList.get(position).getId()));
+                                            PrefsUtil.getInstance().getPrefs().getLong(PrefsUtil.USER_ID_LOGGED, 0), eventsArrayList.get(position).getId()));
                                     Intent intent = new Intent(mContext, HomeActivity.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     mContext.startActivity(intent);
-                                    ((Activity)mContext).finish();
+                                    ((Activity) mContext).finish();
                                 }
                             })
                             .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -103,41 +108,62 @@ public class VerticalEventsAdapter extends RecyclerView.Adapter<VerticalEventsAd
                     alertDialog.show();
                 }
             });
-        }
-        else {
+        } else {
             holder.buttonAsistir.setImageResource(R.drawable.assist);
             holder.buttonAsistir.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     mBus.post(new RequestAttendanceEvent(
-                            PrefsUtil.getInstance().getPrefs().getLong(PrefsUtil.USER_ID_LOGGED,0), eventsArrayList.get(position).getId()));
+                            PrefsUtil.getInstance().getPrefs().getLong(PrefsUtil.USER_ID_LOGGED, 0), eventsArrayList.get(position).getId()));
                     Intent intent = new Intent(mContext, HomeActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     mContext.startActivity(intent);
-                    ((Activity)mContext).finish();
+                    ((Activity) mContext).finish();
                 }
             });
         }
     }
 
-    public void setItems(ArrayList<Event> eventsArrayList){
-        this.eventsArrayList = eventsArrayList;
+    public void setAddItems(List<Event> eventsArrayList) {
+        if (this.eventsArrayList.isEmpty()) {
+            this.eventsArrayList = eventsArrayList;
+        } else {
+            this.eventsArrayList.addAll(eventsArrayList);
+        }
+        this.eventsArrayList.add(new Event());
         notifyDataSetChanged();
     }
 
-    private boolean validateAssist(ArrayList<UserAttending> attendings){
+    public void removeLastItem() {
+        int lastPosition = getItemCount() - 1;
+        eventsArrayList.remove(lastPosition);
+        notifyItemRemoved(lastPosition);
+    }
+
+    private boolean validateAssist(List<UserAttending> attendings) {
         if (attendings != null && !attendings.isEmpty()) {
             for (UserAttending userAttending : attendings) {
                 try {
                     if (userAttending.getId() == PrefsUtil.getInstance().getPrefs().getLong(PrefsUtil.USER_ID_LOGGED, 0))
                         return true;
-                } catch (NullPointerException e){
-
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
                 }
             }
             return false;
         }
         return false;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        int viewType;
+        if (eventsArrayList.get(position).getId() == 0) {
+            viewType = LOADING_VIEW_TYPE;
+        } else {
+            viewType = EVENT_VIEW_TYPE;
+        }
+        return viewType;
     }
 
     @Override
@@ -164,6 +190,13 @@ public class VerticalEventsAdapter extends RecyclerView.Adapter<VerticalEventsAd
         public EventsViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
+        }
+    }
+
+    private class LoadingViewHolder extends RecyclerView.ViewHolder {
+
+        public LoadingViewHolder(View itemView) {
+            super(itemView);
         }
     }
 }
