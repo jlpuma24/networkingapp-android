@@ -6,7 +6,7 @@ import java.util.ArrayList;
 /**
  * Created by Usuario on 17/09/2016.
  */
-public class Event implements Serializable{
+public class Event implements Serializable {
     private long id;
     private String name;
     private String description;

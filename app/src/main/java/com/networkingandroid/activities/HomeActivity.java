@@ -39,7 +39,7 @@ import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -78,7 +78,6 @@ public class HomeActivity extends BaseActivity {
     private long page = 1;
     private long offset = 2;
     private int pastVisiblesItems, visibleItemCount, totalItemCount;
-    private ArrayList<Event> searchResponseArrayList = new ArrayList<Event>();
     private boolean isMoreData = true;
     private VerticalEventsAdapter verticalEventsAdapter;
 
@@ -203,11 +202,11 @@ public class HomeActivity extends BaseActivity {
         }
     }
 
-    public void addItemsToAdapter(ArrayList<Event> searchResponses) {
+    public void addItemsToAdapter(List<Event> searchResponses) {
         if (!searchResponses.isEmpty()) {
-            searchResponseArrayList.addAll(searchResponses);
-            verticalEventsAdapter.setItems(searchResponseArrayList);
+            verticalEventsAdapter.setAddItems(searchResponses);
         } else {
+            verticalEventsAdapter.removeLastItem();
             isMoreData = false;
         }
     }
