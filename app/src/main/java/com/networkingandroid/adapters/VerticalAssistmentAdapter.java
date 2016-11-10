@@ -1,6 +1,7 @@
 package com.networkingandroid.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,7 +58,7 @@ public class VerticalAssistmentAdapter extends RecyclerView.Adapter<VerticalAssi
 
     public class EventsViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.buttonAsistir)
-        ImageView buttonAsistir;
+        Button buttonAsistir;
         @BindView(R.id.imageViewEvent)
         ImageView imageViewEvent;
         @BindView(R.id.textViewNameReferent)

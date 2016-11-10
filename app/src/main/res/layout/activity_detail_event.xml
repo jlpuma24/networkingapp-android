@@ -47,10 +47,13 @@
                     android:scaleType="centerCrop"
                     android:src="@drawable/example" />
 
-                <ImageView
+                <Button
                     android:id="@+id/buttonAsistir"
                     android:layout_width="@dimen/width_assist_button"
                     android:layout_height="@dimen/height_assist_button"
+                    android:gravity="center"
+                    android:paddingLeft="40dp"
+                    android:textStyle="bold"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
                     android:src="@drawable/assist" />

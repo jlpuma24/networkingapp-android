@@ -131,15 +131,10 @@ public class AttendanceActivity extends BaseActivity {
     @Subscribe
     public void onEventsResponse(AttendanceResponse attendanceResponse){
         if (attendanceResponse.getResponse() != null && !attendanceResponse.getResponse().isEmpty()) {
-            ArrayList<Event> eventArrayList = new ArrayList<Event>();
-            ArrayList<Attendance> attendances = attendanceResponse.getResponse();
-            for (Attendance attendance : attendances) {
-                eventArrayList.add(attendance.getEvent());
-            }
             LinearLayoutManager verticalLayoutmanager
                     = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
             recyclerViewEvents.setLayoutManager(verticalLayoutmanager);
-            recyclerViewEvents.setAdapter(new VerticalAssistmentAdapter(eventArrayList, this));
+            recyclerViewEvents.setAdapter(new VerticalAssistmentAdapter(attendanceResponse.getResponse(), this));
         }
         else {
             Toast.makeText(this, getString(R.string.no_attendances),Toast.LENGTH_SHORT).show();

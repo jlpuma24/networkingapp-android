@@ -18,4 +18,5 @@
 
     <color name="textDark">@android:color/black</color>
     <color name="tintPlusIcon">#b9b9b9</color>
+    <color name="blueButtonAttend">#3048A7</color>
 </resources>

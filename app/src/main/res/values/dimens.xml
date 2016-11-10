@@ -12,8 +12,8 @@
     <dimen name="image_logo_margin_bottom">40dp</dimen>
 
     <dimen name="margin_left_row">5dp</dimen>
-    <dimen name="width_assist_button">120dp</dimen>
-    <dimen name="height_assist_button">40dp</dimen>
+    <dimen name="width_assist_button">160dp</dimen>
+    <dimen name="height_assist_button">50dp</dimen>
     <dimen name="height_image_event">250dp</dimen>
 
     <dimen name="text_title_size">18sp</dimen>

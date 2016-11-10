@@ -56,7 +56,12 @@
     <string name="pick_here">Pick here</string>
     <string name="persons_attend">People attending</string>
     <string name="logout_message">Do you want to logout?</string>
-    <string name="unattend_message">You want to stop attending this event?</string>
+    <string name="unattend_message">Are you sure you don\'t want to attend?</string>
 
     <string name="save_user_data">You want to save your data?</string>
+    <string name="attending">ATTENDING</string>
+    <string name="attend">ATTEND</string>
+    <string name="share_text">I\'m attending an event, check it out http://nwmeeting.com</string>
+    <string name="share">Share with</string>
+
 </resources>

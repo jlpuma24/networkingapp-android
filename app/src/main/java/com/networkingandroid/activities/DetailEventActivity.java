@@ -1,24 +1,29 @@
 package com.networkingandroid.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.networkingandroid.MapsActivity;
 import com.networkingandroid.NetworkingApplication;
 import com.networkingandroid.R;
+import com.networkingandroid.network.BusProvider;
+import com.networkingandroid.network.events.RequestAttendanceEvent;
 import com.networkingandroid.network.model.Event;
 import com.networkingandroid.network.model.UserAttending;
 import com.networkingandroid.util.PrefsUtil;
+import com.squareup.otto.Bus;
 import com.squareup.picasso.Picasso;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -31,7 +36,7 @@ import butterknife.OnClick;
 public class DetailEventActivity extends BaseActivity {
 
     @BindView(R.id.buttonAsistir)
-    ImageView buttonAsistir;
+    Button buttonAsistir;
     @BindView(R.id.imageViewEvent)
     ImageView imageViewEvent;
     @BindView(R.id.imageViewShare)
@@ -55,6 +60,7 @@ public class DetailEventActivity extends BaseActivity {
     @BindView(R.id.textViewPeopleAttend)
     TextView textViewPeopleAttend;
     private Event event;
+    private Bus mBus = BusProvider.getBus();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,6 +77,11 @@ public class DetailEventActivity extends BaseActivity {
         Intent intent = new Intent(this, MapsActivity.class);
         intent.putExtra("event", event);
         startActivity(intent);
+    }
+
+    @OnClick(R.id.imageViewShare)
+    public void onShareClicked(){
+        shareTextUrl();
     }
 
     private void setupToolbar() {
@@ -109,12 +120,62 @@ public class DetailEventActivity extends BaseActivity {
         textViewDescriptionEvent.setText(event.getDescription());
         textViewEventName.setText(event.getName());
         if (validateAssist(event.getUsers_attending())){
-            buttonAsistir.setImageResource(R.drawable.attend);
+            buttonAsistir.setBackgroundResource(R.drawable.attend);
+            buttonAsistir.setTextColor(Color.parseColor("#FFFFFF"));
+            buttonAsistir.setText(getString(R.string.attending));
+            buttonAsistir.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(DetailEventActivity.this);
+                    alertDialogBuilder
+                            .setMessage(getString(R.string.unattend_message))
+                            .setCancelable(false)
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    mBus.post(new RequestAttendanceEvent(
+                                            PrefsUtil.getInstance().getPrefs().getLong(PrefsUtil.USER_ID_LOGGED,0), event.getId()));
+                                    Intent intent = new Intent(DetailEventActivity.this, HomeActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+                    alertDialog.show();
+                }
+            });
         }
         else {
-            buttonAsistir.setImageResource(R.drawable.assist);
+            buttonAsistir.setBackgroundResource(R.drawable.assist);
+            buttonAsistir.setTextColor(Color.parseColor("#3048A7"));
+            buttonAsistir.setText(getString(R.string.attend));
+            buttonAsistir.setPadding(0,0,0,0);
+            buttonAsistir.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mBus.post(new RequestAttendanceEvent(
+                            PrefsUtil.getInstance().getPrefs().getLong(PrefsUtil.USER_ID_LOGGED,0), event.getId()));
+                    Intent intent = new Intent(DetailEventActivity.this, HomeActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    finish();
+                }
+            });
         }
         textViewPeopleAttend.setText(getUserAttends(event.getUsers_attending()));
+    }
+
+    private void shareTextUrl() {
+        Intent share = new Intent(android.content.Intent.ACTION_SEND);
+        share.setType("text/plain");
+        share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        share.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_text));
+        startActivity(Intent.createChooser(share, getString(R.string.share)));
     }
 
     private boolean validateAssist(ArrayList<UserAttending> attendings){
@@ -130,4 +191,15 @@ public class DetailEventActivity extends BaseActivity {
         super.onBackPressed();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mBus.register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mBus.unregister(this);
+    }
 }

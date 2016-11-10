@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -74,9 +75,17 @@ public class VerticalEventsAdapter extends RecyclerView.Adapter<VerticalEventsAd
         holder.textViewCityEvent.setText(eventsArrayList.get(position).getPlace().getName()+", "+eventsArrayList.get(position).getPlace().getAddress());
         holder.textViewDescriptionEvent.setText(eventsArrayList.get(position).getDescription());
         holder.textViewEventName.setText(eventsArrayList.get(position).getName());
+        holder.imageViewShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareTextUrl();
+            }
+        });
 
         if (validateAssist(eventsArrayList.get(position).getUsers_attending())){
-            holder.buttonAsistir.setImageResource(R.drawable.attend);
+            holder.buttonAsistir.setBackgroundResource(R.drawable.attend);
+            holder.buttonAsistir.setTextColor(Color.parseColor("#FFFFFF"));
+            holder.buttonAsistir.setText(mContext.getString(R.string.attending));
             holder.buttonAsistir.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -105,7 +114,10 @@ public class VerticalEventsAdapter extends RecyclerView.Adapter<VerticalEventsAd
             });
         }
         else {
-            holder.buttonAsistir.setImageResource(R.drawable.assist);
+            holder.buttonAsistir.setBackgroundResource(R.drawable.assist);
+            holder.buttonAsistir.setTextColor(Color.parseColor("#3048A7"));
+            holder.buttonAsistir.setText(mContext.getString(R.string.attend));
+            holder.buttonAsistir.setPadding(0,0,0,0);
             holder.buttonAsistir.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -118,6 +130,14 @@ public class VerticalEventsAdapter extends RecyclerView.Adapter<VerticalEventsAd
                 }
             });
         }
+    }
+
+    private void shareTextUrl() {
+        Intent share = new Intent(android.content.Intent.ACTION_SEND);
+        share.setType("text/plain");
+        share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        share.putExtra(Intent.EXTRA_TEXT, mContext.getString(R.string.share_text));
+        mContext.startActivity(Intent.createChooser(share, mContext.getString(R.string.share)));
     }
 
     public void setItems(ArrayList<Event> eventsArrayList){
@@ -147,7 +167,7 @@ public class VerticalEventsAdapter extends RecyclerView.Adapter<VerticalEventsAd
 
     public class EventsViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.buttonAsistir)
-        ImageView buttonAsistir;
+        Button buttonAsistir;
         @BindView(R.id.imageViewEvent)
         ImageView imageViewEvent;
         @BindView(R.id.imageViewShare)

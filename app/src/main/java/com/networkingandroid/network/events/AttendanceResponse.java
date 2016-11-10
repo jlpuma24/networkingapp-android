@@ -1,6 +1,7 @@
 package com.networkingandroid.network.events;
 
 import com.networkingandroid.network.model.Attendance;
+import com.networkingandroid.network.model.Event;
 
 import java.util.ArrayList;
 
@@ -9,13 +10,13 @@ import java.util.ArrayList;
  */
 public class AttendanceResponse {
     private boolean success;
-    private ArrayList<Attendance> response;
+    private ArrayList<Event> response;
 
     public boolean isSuccess() {
         return success;
     }
 
-    public ArrayList<Attendance> getResponse() {
+    public ArrayList<Event> getResponse() {
         return response;
     }
 }
