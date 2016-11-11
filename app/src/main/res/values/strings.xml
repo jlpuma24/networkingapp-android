@@ -24,7 +24,7 @@
     <string name="selecciona_area">Pick an area</string>
     <string name="buscar">Buscar</string>
 
-    <string name="on_boarding_two">Check the event\'s details (industry, place and date)</string>
+    <string name="on_boarding_two">Check the event\'s details\n(industry, place and date)</string>
     <string name="on_boarding_one">Validates the city\nwhere you are</string>
     <string name="on_boarding_three">Don’t forget to confirm\nyou\'re going to attend!</string>
     

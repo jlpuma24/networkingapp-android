@@ -11,12 +11,15 @@ import com.networkingandroid.R;
 import com.networkingandroid.adapters.OnBoardingPagerAdapter;
 import com.networkingandroid.util.SwipeType;
 
+import me.relex.circleindicator.CircleIndicator;
+
 /**
  * Created by Usuario on 16/09/2016.
  */
 public class OnBoardingActivity extends BaseActivity {
 
     private ViewPager pagerSlides;
+    private CircleIndicator indicator;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -24,7 +27,10 @@ public class OnBoardingActivity extends BaseActivity {
         setContentView(R.layout.activity_onboarding);
 
         pagerSlides = (ViewPager) findViewById(R.id.viewPagerSlides);
+        indicator = (CircleIndicator) findViewById(R.id.indicator);
+
         pagerSlides.setAdapter(new OnBoardingPagerAdapter(getSupportFragmentManager()));
+        indicator.setViewPager(pagerSlides);
         pagerSlides.setOnTouchListener(new ActivitySwipeDetector(this));
     }
 

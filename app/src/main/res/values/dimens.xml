@@ -28,4 +28,7 @@
     <dimen name="measures_share_button">8dp</dimen>
 
     <dimen name="small_space">8dp</dimen>
+
+    <dimen name="ob_circle_indicator_margin_bottom">43dp</dimen>
+    <dimen name="ob_circle_indicator_padding">10dip</dimen>
 </resources>
