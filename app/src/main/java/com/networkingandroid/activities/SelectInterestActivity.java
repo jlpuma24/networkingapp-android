@@ -4,20 +4,14 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.SearchView;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.networkingandroid.R;
-import com.networkingandroid.adapters.CustomAlertAdapter;
 import com.networkingandroid.network.BusProvider;
+import com.networkingandroid.network.UserUpdateRequest;
 import com.networkingandroid.network.events.AreasResultEvents;
 import com.networkingandroid.network.events.IndustriesResultsFilter;
 import com.networkingandroid.network.events.RequestAreas;
@@ -27,8 +21,9 @@ import com.networkingandroid.network.events.SuccessIndustriesResponseEvent;
 import com.networkingandroid.network.model.ApplicationData;
 import com.networkingandroid.network.model.Area;
 import com.networkingandroid.network.model.Industry;
-import com.networkingandroid.util.OnFilterEvents;
-import com.networkingandroid.util.PrefsUtil;
+import com.networkingandroid.network.model.IndustryAreaUser;
+import com.networkingandroid.network.model.UserUpdateObjectRequest;
+import com.networkingandroid.network.model.UserUpdateResponse;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -52,6 +47,7 @@ public class SelectInterestActivity extends BaseActivity {
     private final int RESULT_AREAS = 3;
     private ApplicationData applicationData = new ApplicationData();
     private ProgressDialog mAlertDialog;
+    private UserUpdateRequest userUpdateRequest = new UserUpdateRequest();
     @BindView(R.id.editTextIntereses)
     TextView editTextIntereses;
     @BindView(R.id.editTextArea)
@@ -141,6 +137,35 @@ public class SelectInterestActivity extends BaseActivity {
 
     @OnClick(R.id.buttonContinuar)
     public void onButtonContinuarClicked(){
+        mAlertDialog.show();
+        ArrayList<IndustryAreaUser> industryAreaUser = new ArrayList<IndustryAreaUser>();
+        for (String area: areas){
+            Area areaSelected = getSpecificArea(area);
+            if (areaSelected != null){
+                industryAreaUser.add(new IndustryAreaUser(areaSelected.getIndustry_id(), areaSelected.getId(), false));
+            }
+        }
+        if (!industryAreaUser.isEmpty()) {
+            userUpdateRequest.setIndustry_areas(industryAreaUser);
+            mBus.post(new UserUpdateObjectRequest(userUpdateRequest));
+        }
+        else {
+            startActivity(new Intent(this,HomeActivity.class));
+            finish();
+        }
+    }
+
+    public Area getSpecificArea(String areaName){
+        for (Area area: applicationData.getAreaArrayList()){
+            if (area.getName().equals(areaName))
+                return area;
+        }
+        return null;
+    }
+
+    @Subscribe
+    public void onUserUpdateResponse(UserUpdateResponse userUpdateResponse){
+        mAlertDialog.dismiss();
         startActivity(new Intent(this,HomeActivity.class));
         finish();
     }

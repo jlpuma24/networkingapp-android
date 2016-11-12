@@ -16,6 +16,8 @@ import com.networkingandroid.network.events.SuccessAreasResponseEvent;
 import com.networkingandroid.network.events.SuccessIndustriesResponseEvent;
 import com.networkingandroid.network.model.LoginRequest;
 import com.networkingandroid.network.events.SuccessLoginResponseEvent;
+import com.networkingandroid.network.model.UserUpdateObjectRequest;
+import com.networkingandroid.network.model.UserUpdateResponse;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -190,6 +192,27 @@ public class ApiCallsManager {
             }
             @Override
             public void onFailure(Call<EventsResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Subscribe
+    public void onUserUpdateRequest(UserUpdateObjectRequest userUpdateRequest){
+        mApiClient.doUpdateUser(userUpdateRequest).enqueue(new Callback<UserUpdateResponse>() {
+            @Override
+            public void onResponse(Call<UserUpdateResponse> call, Response<UserUpdateResponse> response) {
+                if (response.isSuccessful()){
+                    mBus.post(response.body());
+                }
+                else {
+                    mBus.post(ErrorUtils.parseRretrofitError(response, mApiClient.getRetrofitAdapter()));
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<UserUpdateResponse> call, Throwable t) {
 
             }
         });

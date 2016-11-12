@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.networkingandroid.R;
 import com.networkingandroid.network.BusProvider;
+import com.networkingandroid.network.UserUpdateRequest;
 import com.networkingandroid.network.events.AreasResultEvents;
 import com.networkingandroid.network.events.IndustriesResultsFilter;
 import com.networkingandroid.network.events.RequestAreas;
@@ -29,6 +30,9 @@ import com.networkingandroid.network.events.SuccessIndustriesResponseEvent;
 import com.networkingandroid.network.model.ApplicationData;
 import com.networkingandroid.network.model.Area;
 import com.networkingandroid.network.model.Industry;
+import com.networkingandroid.network.model.IndustryAreaUser;
+import com.networkingandroid.network.model.UserUpdateObjectRequest;
+import com.networkingandroid.network.model.UserUpdateResponse;
 import com.networkingandroid.util.Constants;
 import com.networkingandroid.util.PrefsUtil;
 import com.networkingandroid.util.RoundedCornersTransform;
@@ -77,6 +81,7 @@ public class SettingsActivity extends BaseActivity {
     private final int RESULT_AREAS = 3;
     private ApplicationData applicationData = new ApplicationData();
     private ProgressDialog mAlertDialog;
+    private UserUpdateRequest userUpdateRequest = new UserUpdateRequest();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -118,12 +123,7 @@ public class SettingsActivity extends BaseActivity {
                                 .setCancelable(false)
                                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
-                                        // if this button is clicked, close
-                                        // current activity
-                                        Intent intent = new Intent(SettingsActivity.this, HomeActivity.class);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                        startActivity(intent);
-                                        finish();
+                                        prepareUpdateData();
                                     }
                                 })
                                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -138,6 +138,37 @@ public class SettingsActivity extends BaseActivity {
             }
         });
         headerBar.setText(getString(R.string.settings));
+    }
+
+    private void prepareUpdateData(){
+        mAlertDialog.show();
+        ArrayList<IndustryAreaUser> industryAreaUser = new ArrayList<IndustryAreaUser>();
+        for (String area: areas){
+            Area areaSelected = getSpecificArea(area);
+            if (areaSelected != null){
+                industryAreaUser.add(new IndustryAreaUser(areaSelected.getIndustry_id(), areaSelected.getId(), false));
+            }
+        }
+        userUpdateRequest.setIndustry_areas(industryAreaUser);
+        mBus.post(new UserUpdateObjectRequest(userUpdateRequest));
+    }
+
+    @Subscribe
+    public void onUserUpdateResponse(UserUpdateResponse userUpdateResponse){
+        mAlertDialog.dismiss();
+        Intent intent = new Intent(SettingsActivity.this, HomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
+
+    }
+
+    public Area getSpecificArea(String areaName){
+        for (Area area: applicationData.getAreaArrayList()){
+            if (area.getName().equals(areaName))
+                return area;
+        }
+        return null;
     }
 
     private void setUpInfoUser() {

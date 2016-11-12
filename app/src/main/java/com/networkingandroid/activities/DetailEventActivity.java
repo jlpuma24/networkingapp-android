@@ -98,11 +98,13 @@ public class DetailEventActivity extends BaseActivity {
         String result = "";
         int i = 0;
         for (UserAttending userAttending: attendings){
-            if  (i == 0){
-                result = userAttending.getName()+" "+userAttending.getLast_name();
+            if  (i == 0 || result.isEmpty()){
+                if (userAttending.getPosition() != null && userAttending.getCompany() != null)
+                    result = userAttending.getCompany()+" "+userAttending.getPosition();
             }
             else {
-                result = result+ "\n"+ userAttending.getName()+" "+userAttending.getLast_name();
+                if (userAttending.getPosition() != null && userAttending.getCompany() != null)
+                    result = result+ "\n"+ userAttending.getCompany()+" "+userAttending.getPosition();
             }
         }
         return result;

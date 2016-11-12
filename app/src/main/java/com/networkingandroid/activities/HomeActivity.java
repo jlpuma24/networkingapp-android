@@ -78,7 +78,7 @@ public class HomeActivity extends BaseActivity {
     private boolean searchShowed = false;
     private ProgressDialog progressDialog;
     private long page = 1;
-    private long offset = 2;
+    private long offset = 10;
     private int pastVisiblesItems, visibleItemCount, totalItemCount;
     private ArrayList<Event> searchResponseArrayList = new ArrayList<Event>();
     private boolean isMoreData = true;

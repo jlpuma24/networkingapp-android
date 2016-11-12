@@ -7,6 +7,7 @@ import com.networkingandroid.network.events.SuccessAreasResponseEvent;
 import com.networkingandroid.network.events.SuccessIndustriesResponseEvent;
 import com.networkingandroid.network.events.SuccessLoginResponseEvent;
 import com.networkingandroid.network.model.Event;
+import com.networkingandroid.network.model.UserUpdateObjectRequest;
 import com.networkingandroid.network.model.UserUpdateResponse;
 
 import retrofit2.Call;
@@ -49,5 +50,5 @@ public interface ApiService {
 
     @PUT("api/users/{id}")
     Call<UserUpdateResponse> doUpdateUser(@Path("id") long id,
-                                          @Body UserUpdateRequest userUpdateRequest);
+                                          @Body UserUpdateObjectRequest userUpdateRequest);
 }

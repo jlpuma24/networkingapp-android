@@ -11,6 +11,8 @@ import com.networkingandroid.network.events.SuccessAreasResponseEvent;
 import com.networkingandroid.network.events.SuccessIndustriesResponseEvent;
 import com.networkingandroid.network.model.LoginRequest;
 import com.networkingandroid.network.events.SuccessLoginResponseEvent;
+import com.networkingandroid.network.model.UserUpdateObjectRequest;
+import com.networkingandroid.network.model.UserUpdateResponse;
 import com.networkingandroid.util.PrefsUtil;
 import com.squareup.otto.Bus;
 
@@ -135,6 +137,11 @@ public class ApiClient {
     public Call<SuccessLoginResponseEvent> doLogin(LoginRequest loginRequest){
         ApiService apiService = retrofitAdapter.create(ApiService.class);
         return apiService.doLogin(loginRequest.getEmail(), loginRequest.getName(), loginRequest.getLast_name(), loginRequest.getAvatar(), loginRequest.getProfile(), loginRequest.getUid());
+    }
+
+    public Call<UserUpdateResponse> doUpdateUser(UserUpdateObjectRequest userUpdateRequest){
+        ApiService apiService = retrofitAdapter.create(ApiService.class);
+        return apiService.doUpdateUser(PrefsUtil.getInstance().getPrefs().getLong(PrefsUtil.USER_ID_LOGGED, 0), userUpdateRequest);
     }
 
     public Call<EventsResponse> doGetEventsByName(String name){

@@ -14,6 +14,8 @@ public class UserAttending implements Serializable {
     private boolean status;
     private String created_at;
     private String updated_at;
+    private String position;
+    private String company;
 
     public long getId() {
         return id;
@@ -45,5 +47,13 @@ public class UserAttending implements Serializable {
 
     public String getLast_name() {
         return last_name;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public String getPosition() {
+        return position;
     }
 }
