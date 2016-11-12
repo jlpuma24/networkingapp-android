@@ -1,5 +1,7 @@
 package com.networkingandroid.network.model;
 
+import java.util.ArrayList;
+
 /**
  * Created by Usuario on 25/09/2016.
  */
@@ -14,6 +16,8 @@ public class UserProfile {
     private String created_at;
     private String updated_at;
     private String authentication_token;
+    private ArrayList<Industry> industries;
+    private ArrayList<Area> areas;
 
     public long getId() {
         return id;
@@ -53,5 +57,13 @@ public class UserProfile {
 
     public String getAuthentication_token() {
         return authentication_token;
+    }
+
+    public ArrayList<Industry> getIndustries() {
+        return industries;
+    }
+
+    public ArrayList<Area> getAreas() {
+        return areas;
     }
 }

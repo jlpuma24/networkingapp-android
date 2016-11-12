@@ -14,8 +14,10 @@ import com.networkingandroid.network.events.RequestFilterEvents;
 import com.networkingandroid.network.events.RequestIndustries;
 import com.networkingandroid.network.events.SuccessAreasResponseEvent;
 import com.networkingandroid.network.events.SuccessIndustriesResponseEvent;
+import com.networkingandroid.network.events.UserProfileRequest;
 import com.networkingandroid.network.model.LoginRequest;
 import com.networkingandroid.network.events.SuccessLoginResponseEvent;
+import com.networkingandroid.network.model.UserResponseDetail;
 import com.networkingandroid.network.model.UserUpdateObjectRequest;
 import com.networkingandroid.network.model.UserUpdateResponse;
 import com.squareup.otto.Bus;
@@ -208,11 +210,30 @@ public class ApiCallsManager {
                 else {
                     mBus.post(ErrorUtils.parseRretrofitError(response, mApiClient.getRetrofitAdapter()));
                 }
-
             }
 
             @Override
             public void onFailure(Call<UserUpdateResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Subscribe
+    public void onRequestUserDetail(UserProfileRequest userProfileRequest){
+        mApiClient.doGetUser().enqueue(new Callback<UserResponseDetail>() {
+            @Override
+            public void onResponse(Call<UserResponseDetail> call, Response<UserResponseDetail> response) {
+                if (response.isSuccessful()){
+                    mBus.post(response.body());
+                }
+                else {
+                    mBus.post(ErrorUtils.parseRretrofitError(response, mApiClient.getRetrofitAdapter()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserResponseDetail> call, Throwable t) {
 
             }
         });

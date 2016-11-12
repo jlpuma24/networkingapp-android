@@ -27,10 +27,12 @@ import com.networkingandroid.network.events.RequestAreas;
 import com.networkingandroid.network.events.RequestIndustries;
 import com.networkingandroid.network.events.SuccessAreasResponseEvent;
 import com.networkingandroid.network.events.SuccessIndustriesResponseEvent;
+import com.networkingandroid.network.events.UserProfileRequest;
 import com.networkingandroid.network.model.ApplicationData;
 import com.networkingandroid.network.model.Area;
 import com.networkingandroid.network.model.Industry;
 import com.networkingandroid.network.model.IndustryAreaUser;
+import com.networkingandroid.network.model.UserResponseDetail;
 import com.networkingandroid.network.model.UserUpdateObjectRequest;
 import com.networkingandroid.network.model.UserUpdateResponse;
 import com.networkingandroid.util.Constants;
@@ -72,6 +74,8 @@ public class SettingsActivity extends BaseActivity {
     LinearLayout containerIndustries;
     @BindView(R.id.buttonEntrar)
     Button buttonLogout;
+    @BindView(R.id.editTextUserLocation)
+    EditText editTextUserLocation;
     private Bus mBus = BusProvider.getBus();
     private ArrayList<Area> areaArrayList;
     private ArrayList<String> industries = new ArrayList<String>();
@@ -149,7 +153,16 @@ public class SettingsActivity extends BaseActivity {
                 industryAreaUser.add(new IndustryAreaUser(areaSelected.getIndustry_id(), areaSelected.getId(), false));
             }
         }
-        userUpdateRequest.setIndustry_areas(industryAreaUser);
+        if (!industryAreaUser.isEmpty()) {
+            userUpdateRequest.setIndustry_areas(industryAreaUser);
+        }
+        else {
+            userUpdateRequest.setName(editTextUserName.getText().toString());
+            userUpdateRequest.setLocation(editTextUserLocation.getText().toString());
+            PrefsUtil.getInstance().getEditor().putString(PrefsUtil.USER_LOCATION, editTextUserLocation.getText().toString());
+            PrefsUtil.getInstance().getEditor().putString(PrefsUtil.NAME_USER_DATA, editTextUserName.getText().toString());
+        }
+
         mBus.post(new UserUpdateObjectRequest(userUpdateRequest));
     }
 
@@ -186,10 +199,10 @@ public class SettingsActivity extends BaseActivity {
 
                     }
                 });
-
         editTextUserName.setText(PrefsUtil.getInstance().getPrefs().getString(PrefsUtil.NAME_USER_DATA, ""));
         editTextUserMail.setText(PrefsUtil.getInstance().getPrefs().getString(PrefsUtil.EMAIL_ACTIVE_ACCOUNT_ID, ""));
         buttonLogout.setPaintFlags(buttonLogout.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        editTextUserLocation.setText(PrefsUtil.getInstance().getPrefs().getString(PrefsUtil.USER_LOCATION, ""));
         editTextUserMail.setEnabled(false);
     }
 
@@ -289,6 +302,31 @@ public class SettingsActivity extends BaseActivity {
     @Subscribe
     public void onSuccessAreaEvent(SuccessAreasResponseEvent successAreasResponseEvent) {
         applicationData.setAreaArrayList(successAreasResponseEvent.getResponse());
+        mBus.post(new UserProfileRequest());
+    }
+
+    @Subscribe
+    public void onUserUpdateProfileResponse(UserResponseDetail userResponseDetail){
+        ArrayList<Industry> industries = userResponseDetail.getResponse().getIndustries();
+        ArrayList<Area> areas = userResponseDetail.getResponse().getAreas();
+        ArrayList<String> areasList = new ArrayList<String>(), industrysList = new ArrayList<String>();
+
+        if (!industries.isEmpty()){
+            for (Industry industry: industries){
+                if (!industrysList.contains(industry.getName()))
+                    industrysList.add(industry.getName());
+            }
+
+            onFilterIndustryEvent(new IndustriesResultsFilter(industrysList));
+        }
+        if (!areas.isEmpty()){
+            for (Area area: areas){
+                if (!areasList.contains(area.getName()))
+                    areasList.add(area.getName());
+            }
+            onFilterEventsEvent(new AreasResultEvents(areasList));
+        }
+
         mAlertDialog.dismiss();
     }
 
@@ -298,7 +336,6 @@ public class SettingsActivity extends BaseActivity {
         for (int i = 0; i < industries.size(); i++) {
             containerIndustries.addView(inflateInterestArea(industries.get(i), true, i == 0));
         }
-
     }
 
     public void onFilterEventsEvent(AreasResultEvents areasResultEvents) {

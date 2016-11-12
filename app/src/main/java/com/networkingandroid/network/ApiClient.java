@@ -11,6 +11,7 @@ import com.networkingandroid.network.events.SuccessAreasResponseEvent;
 import com.networkingandroid.network.events.SuccessIndustriesResponseEvent;
 import com.networkingandroid.network.model.LoginRequest;
 import com.networkingandroid.network.events.SuccessLoginResponseEvent;
+import com.networkingandroid.network.model.UserResponseDetail;
 import com.networkingandroid.network.model.UserUpdateObjectRequest;
 import com.networkingandroid.network.model.UserUpdateResponse;
 import com.networkingandroid.util.PrefsUtil;
@@ -147,6 +148,11 @@ public class ApiClient {
     public Call<EventsResponse> doGetEventsByName(String name){
         ApiService apiService = retrofitAdapter.create(ApiService.class);
         return apiService.getEventsByText(name);
+    }
+
+    public Call<UserResponseDetail> doGetUser(){
+        ApiService apiService = retrofitAdapter.create(ApiService.class);
+        return apiService.doGetUser(PrefsUtil.getInstance().getPrefs().getLong(PrefsUtil.USER_ID_LOGGED, 0));
     }
 
     public static Retrofit getRetrofitAdapter() {

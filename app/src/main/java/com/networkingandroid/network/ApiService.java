@@ -7,6 +7,7 @@ import com.networkingandroid.network.events.SuccessAreasResponseEvent;
 import com.networkingandroid.network.events.SuccessIndustriesResponseEvent;
 import com.networkingandroid.network.events.SuccessLoginResponseEvent;
 import com.networkingandroid.network.model.Event;
+import com.networkingandroid.network.model.UserResponseDetail;
 import com.networkingandroid.network.model.UserUpdateObjectRequest;
 import com.networkingandroid.network.model.UserUpdateResponse;
 
@@ -51,4 +52,7 @@ public interface ApiService {
     @PUT("api/users/{id}")
     Call<UserUpdateResponse> doUpdateUser(@Path("id") long id,
                                           @Body UserUpdateObjectRequest userUpdateRequest);
+
+    @GET("api/users/{id}")
+    Call<UserResponseDetail> doGetUser(@Path("id") long id);
 }

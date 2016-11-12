@@ -150,6 +150,7 @@ public class SelectInterestActivity extends BaseActivity {
             mBus.post(new UserUpdateObjectRequest(userUpdateRequest));
         }
         else {
+            mAlertDialog.dismiss();
             startActivity(new Intent(this,HomeActivity.class));
             finish();
         }
