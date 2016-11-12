@@ -106,13 +106,6 @@ public class SelectInterestActivity extends BaseActivity {
         startActivityForResult(intent, 1);
     }
 
-    private void hideKeyboard() {
-        if (getCurrentFocus() != null) {
-            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-        }
-    }
-
     private TextView inflateInterestArea(final String value, final boolean isIndustry, boolean isFirst){
         View child = getLayoutInflater().inflate(R.layout.word, null);
         TextView word = (TextView) child.findViewById(R.id.textViewWord);
@@ -183,7 +176,6 @@ public class SelectInterestActivity extends BaseActivity {
         for (int i = 0; i < industries.size(); i++) {
             containerIndustries.addView(inflateInterestArea(industries.get(i), true, i == 0));
         }
-
     }
 
     public void onFilterEventsEvent(AreasResultEvents areasResultEvents){

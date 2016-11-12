@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Networking</string>
 
-    <string name="linkedin_url">https://api.linkedin.com/v1/people/~:(id,num-connections,picture-url,email-address,first-name,last-name,public-profile-url)</string>
+    <string name="linkedin_url">https://api.linkedin.com/v1/people/~:(id,num-connections,picture-url,email-address,first-name,last-name,public-profile-url,location:(name),positions:(title,company:(name)))</string>
     <string name="error_login">Existió un error al momento de iniciar sesión, por favor intenta nuevamente</string>
     <string name="entrar">ENTER</string>
     <string name="entrar_label">To log in input your </string>

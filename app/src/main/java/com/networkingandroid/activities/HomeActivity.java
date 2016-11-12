@@ -62,6 +62,8 @@ public class HomeActivity extends BaseActivity {
     ImageView imageViewUser;
     @BindView(R.id.textViewUserName)
     TextView textViewUsername;
+    @BindView(R.id.textViewCity)
+    TextView textViewCity;
     //Menu items
     @BindView(R.id.textViewHome)
     TextView textViewHome;
@@ -156,6 +158,7 @@ public class HomeActivity extends BaseActivity {
                 finish();
             }
         });
+        textViewCity.setText(PrefsUtil.getInstance().getPrefs().getString(PrefsUtil.USER_LOCATION, ""));
     }
 
     @Override

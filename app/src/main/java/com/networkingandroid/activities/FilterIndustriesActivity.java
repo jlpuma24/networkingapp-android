@@ -27,6 +27,9 @@ import com.networkingandroid.util.OnFilterEvents;
 import com.squareup.otto.Bus;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -94,14 +97,18 @@ public class FilterIndustriesActivity extends BaseActivity {
                 if (isIndustries) {
                     for (int i = 0; i < industries.size();i++){
                         if (industries.get(i).getName().toLowerCase().contains(charSequence.toString().toLowerCase().trim())) {
-                            results.add(industries.get(i).getName());
+                            if (!results.contains(industries.get(i).getName().toLowerCase())) {
+                                results.add(industries.get(i).getName());
+                            }
                         }
                     }
                 }
                 else {
                     for (int i = 0; i < areas.size();i++){
                         if (areas.get(i).getName().toLowerCase().contains(charSequence.toString().toLowerCase().trim())) {
-                            results.add(areas.get(i).getName());
+                            if (!results.contains(areas.get(i).getName().toLowerCase())) {
+                                results.add(areas.get(i).getName());
+                            }
                         }
                     }
                 }
@@ -187,6 +194,23 @@ public class FilterIndustriesActivity extends BaseActivity {
         }
     }
 
+    private ArrayList<Area> buildAreasArrayList(ArrayList<Area> areas){
+        ArrayList<Area> result = new ArrayList<Area>();
+        for (Area area: areas){
+            if (!hasValue(area.getName(), result))
+                result.add(area);
+        }
+        return result;
+    }
+
+    private boolean hasValue(String value, ArrayList<Area> areas){
+        for (Area area: areas){
+            if (area.getName().equals(value))
+                return true;
+        }
+        return false;
+    }
+
     private ArrayAdapter<String> buildStringIndustriesAdapter(ArrayList<Industry> industryArrayList) {
         String[] industriesStringArray = new String[industryArrayList.size()];
         int i = 0;
@@ -199,11 +223,15 @@ public class FilterIndustriesActivity extends BaseActivity {
     }
 
     private ArrayAdapter<String> buildStringAreasAdapter(ArrayList<Area> areaArrayList) {
-        String[] areasStringArray = new String[areaArrayList.size()];
+        String[] areasStringArray = new String[buildAreasArrayList(areaArrayList).size()];
         int i = 0;
         for (Area area : areaArrayList) {
-            areasStringArray[i] = area.getName();
-            i++;
+            try {
+                areasStringArray[i] = area.getName();
+                i++;
+            }catch (ArrayIndexOutOfBoundsException e){
+
+            }
         }
         return new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_multiple_choice, areasStringArray);

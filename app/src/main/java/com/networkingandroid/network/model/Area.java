@@ -8,6 +8,7 @@ import java.io.Serializable;
 public class Area implements Serializable {
     private long id;
     private String name;
+    private long industry_id;
 
     public long getId() {
         return id;
@@ -15,5 +16,9 @@ public class Area implements Serializable {
 
     public String getName() {
         return name;
+    }
+
+    public long getIndustry_id() {
+        return industry_id;
     }
 }

@@ -69,7 +69,7 @@ public class LoginActivity extends BaseActivity {
                         PrefsUtil.getInstance().setIsLogged(true);
 
                         JSONObject responseJsonObject = apiResponse.getResponseDataAsJson();
-                        String emailAddress = "", firstName = "", lastName = "", pictureUrl = "", publicProfileUrl = "", id = "";
+                        String emailAddress = "", firstName = "", lastName = "", pictureUrl = "", publicProfileUrl = "", id = "", location = "", company = "", companyTitle = "";
 
                         try { emailAddress = responseJsonObject.getString(Constants.EMAIL_ADDRESS_TAG); } catch (JSONException e){}
                         try { firstName = responseJsonObject.getString(Constants.FIRST_NAME_TAG); } catch (JSONException e){}
@@ -77,9 +77,12 @@ public class LoginActivity extends BaseActivity {
                         try { pictureUrl = responseJsonObject.getString(Constants.PICTURE_URL_TAG); } catch (JSONException e){}
                         try { publicProfileUrl = responseJsonObject.getString(Constants.PUBLIC_PROFILE_URL); } catch (JSONException e){}
                         try { id = responseJsonObject.getString(Constants.ID_TAG); } catch (JSONException e){}
+                        try { location = responseJsonObject.getJSONObject(Constants.LOCATION_TAG).getString(Constants.NAME_LOCATION_TAG); } catch (JSONException e){}
+                        try { company = responseJsonObject.getJSONObject(Constants.POSITIONS_TAG).getJSONArray(Constants.POSITIONS_TAG_VALUES).getJSONObject(0).getJSONObject(Constants.COMPANY_TAG).getString(Constants.COMPANY_NAME_TAG); } catch (JSONException e){}
+                        try { companyTitle = responseJsonObject.getJSONObject(Constants.POSITIONS_TAG).getJSONArray(Constants.POSITIONS_TAG_VALUES).getJSONObject(0).getString(Constants.COMPANY_TITLE_NAME); } catch (JSONException e){}
 
                         prepareProgressDialog();
-                        PrefsUtil.getInstance().setActiveAccount(sessionManager.getSession().getAccessToken().getValue(), emailAddress, firstName+" "+lastName, pictureUrl);
+                        PrefsUtil.getInstance().setActiveAccount(sessionManager.getSession().getAccessToken().getValue(), emailAddress, firstName+" "+lastName, pictureUrl, company, companyTitle, location);
                         mBus.post(new LoginRequest(emailAddress, firstName, lastName, pictureUrl, publicProfileUrl, id));
                     }
 

@@ -15,6 +15,9 @@ public class PrefsUtil {
     public static final String NAME_USER_DATA = "com.networkingandroid.NAME_USER_DATA";
     public static final String PICTURE_USER_DATA = "com.networkingandroid.PICTURE_USER_DATA";
     public static final String USER_ID_LOGGED = "com.networkingandroid.USER_ID_LOGGED";
+    public static final String USER_LOCATION = "com.networkingandroid.USER_LOCATION";
+    public static final String USER_COMPANY = "com.networkingandroid.USER_COMPANY";
+    public static final String USER_COMPANY_TITLE = "com.networkingandroid.USER_COMPANY_TITLE";
     private static final String PREF_NAME = "com.networkingandroid.NETWORKING_ANDROID_PREFERENCES";
     private static PrefsUtil sInstance;
     private final SharedPreferences mPreferences;
@@ -49,12 +52,15 @@ public class PrefsUtil {
         edit.commit();
     }
 
-    public void setActiveAccount(String authToken, String email, String name, String picture) {
+    public void setActiveAccount(String authToken, String email, String name, String picture, String userCompany, String userCompanyTitle, String userLocation) {
         SharedPreferences.Editor edit = mPreferences.edit();
         edit.putString(PrefsUtil.STRING_ACTIVE_OAUTH_TOKEN, authToken);
         edit.putString(PrefsUtil.EMAIL_ACTIVE_ACCOUNT_ID, email);
         edit.putString(PrefsUtil.NAME_USER_DATA, name);
         edit.putString(PrefsUtil.PICTURE_USER_DATA, picture);
+        edit.putString(PrefsUtil.USER_COMPANY, userCompany);
+        edit.putString(PrefsUtil.USER_COMPANY_TITLE, userCompanyTitle);
+        edit.putString(PrefsUtil.USER_LOCATION, userLocation);
         edit.commit();
     }
 

@@ -63,6 +63,8 @@ public class AttendanceActivity extends BaseActivity {
     TextView textViewHome;
     @BindView(R.id.textViewAttendance)
     TextView textViewAttendance;
+    @BindView(R.id.textViewCity)
+    TextView textViewCity;
     @BindView(R.id.textViewSettings)
     TextView textViewSettings;
 
@@ -114,6 +116,7 @@ public class AttendanceActivity extends BaseActivity {
                 finish();
             }
         });
+        textViewCity.setText(PrefsUtil.getInstance().getPrefs().getString(PrefsUtil.USER_LOCATION, ""));
     }
 
     @Override

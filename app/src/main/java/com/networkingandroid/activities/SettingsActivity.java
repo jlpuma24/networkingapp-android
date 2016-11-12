@@ -232,6 +232,7 @@ public class SettingsActivity extends BaseActivity {
                     public void onClick(DialogInterface dialog, int id) {
                         // if this button is clicked, close
                         // current activity
+                        PrefsUtil.getInstance().setIsLogged(false);
                         Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);

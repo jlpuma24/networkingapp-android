@@ -7,10 +7,13 @@ import com.networkingandroid.network.events.SuccessAreasResponseEvent;
 import com.networkingandroid.network.events.SuccessIndustriesResponseEvent;
 import com.networkingandroid.network.events.SuccessLoginResponseEvent;
 import com.networkingandroid.network.model.Event;
+import com.networkingandroid.network.model.UserUpdateResponse;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -43,4 +46,8 @@ public interface ApiService {
 
     @POST("http://nwmeeting.com/api/attendances")
     Call<AttendanceEventResponse> doMakeAttendance(@Query("user_id") long user_id, @Query("event_id") long event_id);
+
+    @PUT("api/users/{id}")
+    Call<UserUpdateResponse> doUpdateUser(@Path("id") long id,
+                                          @Body UserUpdateRequest userUpdateRequest);
 }
