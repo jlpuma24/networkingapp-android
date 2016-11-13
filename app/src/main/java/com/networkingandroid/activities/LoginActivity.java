@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,7 +42,7 @@ public class LoginActivity extends BaseActivity {
     @BindView(R.id.buttonEntrar)
     Button buttonEntrar;
     @BindView(R.id.linkedinLogoTextView)
-    TextView linkedinLogoTextView;
+    ImageView linkedinLogoTextView;
     private Bus mBus = BusProvider.getBus();
     private ProgressDialog progressDialog;
 

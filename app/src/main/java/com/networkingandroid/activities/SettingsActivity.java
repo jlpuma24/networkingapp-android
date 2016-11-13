@@ -156,12 +156,10 @@ public class SettingsActivity extends BaseActivity {
         if (!industryAreaUser.isEmpty()) {
             userUpdateRequest.setIndustry_areas(industryAreaUser);
         }
-        else {
-            userUpdateRequest.setName(editTextUserName.getText().toString());
-            userUpdateRequest.setLocation(editTextUserLocation.getText().toString());
-            PrefsUtil.getInstance().getEditor().putString(PrefsUtil.USER_LOCATION, editTextUserLocation.getText().toString());
-            PrefsUtil.getInstance().getEditor().putString(PrefsUtil.NAME_USER_DATA, editTextUserName.getText().toString());
-        }
+
+        userUpdateRequest.setName(editTextUserName.getText().toString());
+        userUpdateRequest.setLocation(editTextUserLocation.getText().toString());
+        PrefsUtil.getInstance().setActiveAccount(editTextUserName.getText().toString(),editTextUserLocation.getText().toString());
 
         mBus.post(new UserUpdateObjectRequest(userUpdateRequest));
     }

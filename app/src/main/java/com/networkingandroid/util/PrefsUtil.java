@@ -64,6 +64,14 @@ public class PrefsUtil {
         edit.commit();
     }
 
+    public void setActiveAccount(String name, String userLocation) {
+        SharedPreferences.Editor edit = mPreferences.edit();
+        edit.putString(PrefsUtil.NAME_USER_DATA, name);
+        edit.putString(PrefsUtil.USER_LOCATION, userLocation);
+        edit.commit();
+    }
+
+
     public void setUserData(String userData) {
         SharedPreferences.Editor edit = mPreferences.edit();
         edit.putString(PrefsUtil.USER_OBJECT_DATA, userData);

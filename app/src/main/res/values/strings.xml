@@ -4,7 +4,7 @@
     <string name="linkedin_url">https://api.linkedin.com/v1/people/~:(id,num-connections,picture-url,email-address,first-name,last-name,public-profile-url,location:(name),positions:(title,company:(name)))</string>
     <string name="error_login">Existió un error al momento de iniciar sesión, por favor intenta nuevamente</string>
     <string name="entrar">ENTER</string>
-    <string name="entrar_label">To log in input your </string>
+    <string name="entrar_label">To log in input your\nLinkedln username\nand password</string>
     <string name="de">username and password</string>
 
     <string name="url_base">http://nwmeeting.com</string>
@@ -29,7 +29,7 @@
     <string name="on_boarding_three">Don’t forget to confirm\nyou\'re going to attend!</string>
     
     <string name="home">HOME</string>
-    <string name="attendances">ATTENDANCES</string>
+    <string name="attendances">ATTENDING</string>
     <string name="settings">SETTINGS</string>
 
     <string name="no_attendances">Requests have not yet attendance at an event.</string>

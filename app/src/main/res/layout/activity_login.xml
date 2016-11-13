@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:background="@drawable/bg_login"
@@ -11,24 +12,26 @@
         android:layout_height="0dp"
         android:layout_weight="6">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
+            android:orientation="vertical"
             android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                app:srcCompat="@drawable/nw_logo"
+                android:layout_gravity="center_horizontal"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="80dp" />
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/logo"
-                    android:layout_marginBottom="@dimen/image_logo_margin_bottom"
-                    android:layout_gravity="center_horizontal" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -37,21 +40,20 @@
                     android:gravity="center"
                     android:textColor="@android:color/white"
                     android:text="@string/entrar_label"
+                    android:layout_marginTop="10dp"
                     android:drawablePadding="@dimen/drawable_linkedin_logo_padding"
-                    android:drawableRight="@drawable/linkedin"
                     android:layout_gravity="center_horizontal" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/login_text_elements_size"
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:gravity="center"
-                    android:textColor="@android:color/white"
+                    android:layout_marginTop="4dp"
+                    android:src="@drawable/linkedin"
                     android:id="@+id/linkedinLogoTextView"
-                    android:text="@string/de"
                     android:layout_gravity="center_horizontal" />
             </LinearLayout>
-        </RelativeLayout>
+        </LinearLayout>
 
     </LinearLayout>
 
