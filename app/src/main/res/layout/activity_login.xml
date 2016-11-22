@@ -53,6 +53,32 @@
                     android:id="@+id/linkedinLogoTextView"
                     android:layout_gravity="center_horizontal" />
             </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_marginTop="15dp"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="@string/terms_one"
+                    android:layout_width="match_parent"
+                    android:textSize="13sp"
+                    android:textStyle="normal"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:text="@string/terms"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white"
+                    android:id="@+id/textViewTermsAndConditions" />
+            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>

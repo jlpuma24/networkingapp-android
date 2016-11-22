@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.networkingandroid">
+    package="com.elitgon">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
-        android:name=".NetworkingApplication"
+        android:name="com.elitgon.nw.NetworkingApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
-            android:name=".activities.SplashActivity"
+            android:name=".nw.activities.SplashActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
@@ -22,39 +22,39 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.LoginActivity"
+            android:name=".nw.activities.LoginActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"></activity>
         <activity
-            android:name=".activities.OnBoardingActivity"
+            android:name=".nw.activities.OnBoardingActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activities.SettingsActivity"
+            android:name=".nw.activities.SettingsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activities.AttendanceActivity"
+            android:name=".nw.activities.AttendanceActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"></activity>
         <activity
-            android:name=".activities.SelectInterestActivity"
+            android:name=".nw.activities.SelectInterestActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden">
         </activity>
 
         <activity
-            android:name=".activities.FilterIndustriesActivity"
+            android:name=".nw.activities.FilterIndustriesActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
 
         <activity
-            android:name=".activities.HomeActivity"
+            android:name=".nw.activities.HomeActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"></activity>
 
         <activity
-            android:name=".activities.DetailEventActivity"
+            android:name=".nw.activities.DetailEventActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"></activity>
 
@@ -71,7 +71,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".MapsActivity"
+            android:name="com.elitgon.nw.MapsActivity"
             android:label="@string/title_activity_maps"
             android:screenOrientation="portrait"></activity>
 

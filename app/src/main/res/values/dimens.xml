@@ -31,4 +31,5 @@
 
     <dimen name="ob_circle_indicator_margin_bottom">43dp</dimen>
     <dimen name="ob_circle_indicator_padding">10dip</dimen>
+    <dimen name="height_first_container">50dp</dimen>
 </resources>

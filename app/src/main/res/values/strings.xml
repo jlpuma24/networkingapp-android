@@ -64,4 +64,8 @@
     <string name="share_text">I\'m attending an event, check it out http://nwmeeting.com</string>
     <string name="share">Share with</string>
 
+    <string name="terms_one">By logging in you agree to the</string>
+    <string name="terms">Terms and Conditions</string>
+    <string name="terms_url">http://nwmeeting.com/termsandconditions</string>
+
 </resources>
